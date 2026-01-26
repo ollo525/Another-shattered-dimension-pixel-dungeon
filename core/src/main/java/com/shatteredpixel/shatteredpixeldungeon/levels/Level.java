@@ -1517,7 +1517,7 @@ public abstract class Level implements Bundlable {
 		int ay = a / width();
 		int bx = b % width();
 		int by = b / width();
-		return Math.max( Math.abs( ax - bx ), Math.abs( ay - by ) );
+		return Math.abs( ax - bx ) + Math.abs( ay - by );
 	}
 	
 	public boolean adjacent( int a, int b ) {
