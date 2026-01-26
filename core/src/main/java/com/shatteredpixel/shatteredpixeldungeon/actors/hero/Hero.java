@@ -1819,6 +1819,10 @@ public class Hero extends Char {
 
 			if (path == null) return false;
 			step = path.removeFirst();
+			if (Dungeon.level.distance(pos, step) > 1) {
+   			 interrupt();
+   			 return false;
+}
 
 		}
 
