@@ -204,18 +204,21 @@ public class Hero extends Char {
 	public int defLv = 1, defProg = 0;
 	public int seeLv = 1, seeProg = 0;
 	
-	private static final float TIME_TO_REST		    = 1f;
-	private static final float TIME_TO_SEARCH	    = 2f;
-	private static final float HUNGER_FOR_SEARCH	= 6f;
-	
+	public int attSTRBonus = 0;
+	public int defSTRBonus = 0;
+
+	private int attackSkill = 10;
+	private int defenseSkill = 5;
+
 	public HeroClass heroClass = HeroClass.ROGUE;
 	public HeroSubClass subClass = HeroSubClass.NONE;
 	public ArmorAbility armorAbility = null;
 	public ArrayList<LinkedHashMap<Talent, Integer>> talents = new ArrayList<>();
 	public LinkedHashMap<Talent, Talent> metamorphedTalents = new LinkedHashMap<>();
-	
-	private int attackSkill = 10;
-	private int defenseSkill = 5;
+
+	private static final float TIME_TO_REST		    = 1f;
+	private static final float TIME_TO_SEARCH	    = 2f;
+	private static final float HUNGER_FOR_SEARCH	= 6f;
 
 	public boolean ready = false;
 	public boolean damageInterrupt = true;
@@ -257,18 +260,16 @@ public class Hero extends Char {
 	
 	public void updateHT( boolean boostHP ){
 		int curHT = HT;
+
+		// TWOJA LOGIKA TIERÓW:
+		int currentTier = Math.min(attLv, Math.min(defLv, seeLv));
 		
-		HT = 20 + HTBoost;
+		// HP = Baza(20) + (Atak-1)*5 + (Obrona-1)*5 + (Tier-1)*5
+		HT = 20 + ((attLv - 1) * 5) + ((defLv - 1) * 5) + ((currentTier - 1) * 5) + HTBoost;
+
 		float multiplier = RingOfMight.HTMultiplier(this);
 		HT = Math.round(multiplier * HT);
-		
-		if (buff(ElixirOfMight.HTBoost.class) != null){
-			HT += buff(ElixirOfMight.HTBoost.class).boost();
-		}
-		
-		if (boostHP){
-			HP += Math.max(HT - curHT, 0);
-		}
+		if (boostHP) HP += Math.max(HT - curHT, 0);
 		HP = Math.min(HP, HT);
 	}
 
@@ -2550,16 +2551,6 @@ public class Hero extends Char {
 							ScrollOfMagicMapping.discover( curr );
 							
 							if (fieldOfView[curr]) smthFound = true;
-							seeProg++;
-							if (seeProg >= (1 * seeLv) && seeLv < 10) {
-								seeLv++; seeProg = 0;
-								GLog.p("Spostrzegawczość wzrasta do poziomu " + seeLv + "!");
-								// LOGIKA BOTTLE-NECK: HP tylko jeśli walka nadąża
-								if (attLv >= seeLv && defLv >= seeLv) {
-									HTBoost += 5;
-									updateHT(true);
-									GLog.i("+5 HP za kolejny tier!");
-								}
 							}
 	
 							if (talisman != null){
@@ -2578,6 +2569,29 @@ public class Hero extends Char {
 		if (intentional) {
 			sprite.showStatus( CharSprite.DEFAULT, Messages.get(this, "search") );
 			sprite.operate( pos );
+						// TRENING SPOSTRZEGAWCZOŚCI
+			seeProg++;
+			if (seeProg >= (seeLv * 2) && seeLv < 10) {
+				seeLv++; seeProg = 0;
+				GLog.p("Spostrzegawczość wzrasta do poziomu " + seeLv + "!");
+				// BOTTLE-NECK HP
+				if (attLv >= seeLv && defLv >= seeLv) {
+					HTBoost += 5; updateHT(true);
+					GLog.i("+5 HP za kolejny tier!");
+				}
+			}
+
+			// CZAS TRWANIA
+			float searchTime = 2f; 
+			if (smthFound) {
+				// Szansa na 4 tury: 100% - (10 * seeLv)%
+				if (Random.Float() < (1.0f - (0.1f * seeLv))) {
+					searchTime = 4f;
+					GLog.i("Znalezienie czegoś zajęło Ci chwilę...");
+				}
+			}
+			spendAndNext(searchTime);
+		}
 			if (!Dungeon.level.locked) {
 				if (cursed) {
 					GLog.n(Messages.get(this, "search_distracted"));
@@ -2660,16 +2674,18 @@ float searchTime = TIME_TO_SEARCH; // domyślnie 2 tury
 	private void checkSkill(String type) {
 		if (type.equals("att") && attLv < 10) {
 			attProg++;
-			if (attProg >= (5 + (5 * attLv))) {
+			// PODWOJONY CZAS: (5 + (5 * attLv)) * 2
+			if (attProg >= (5 + (5 * attLv)) * 2) {
 				attLv++; attProg = 0;
-				attackSkill += 3; // +3 celności na poziom
+				attackSkill += 3;
 				gainSkillReward("Atak", attLv);
 			}
 		} else if (type.equals("def") && defLv < 10) {
 			defProg++;
-			if (defProg >= (3 + (3 * defLv))) {
+			// PODWOJONY CZAS: (3 + (3 * defLv)) * 2
+			if (defProg >= (3 + (3 * defLv)) * 2) {
 				defLv++; defProg = 0;
-				defenseSkill += 3; // +3 uniku na poziom
+				defenseSkill += 3;
 				gainSkillReward("Obrona", defLv);
 			}
 		}
@@ -2677,12 +2693,16 @@ float searchTime = TIME_TO_SEARCH; // domyślnie 2 tury
 
 	private void gainSkillReward(String name, int level) {
 		GLog.p(name + " wzrasta do poziomu " + level + "!");
-		HTBoost += 5; // +5 HP za poziom
 		
-		// Twoja logika Siły (+2 na progach 3, 5, 7, 10)
+		// ROZDZIELENIE SIŁY:
 		if (level == 3 || level == 5 || level == 7 || level == 10) {
-			STR += 2;
-			GLog.p("Twoja Siła wzrosła! (+2 STR)");
+			if (name.equals("Atak")) {
+				attSTRBonus += 2;
+				GLog.p("Twoja sprawność w ataku wzrosła!, możesz podnosić lepsze bronie");
+			} else if (name.equals("Obrona")) {
+				defSTRBonus += 2;
+				GLog.p("Twoja wytrzymałość wzrosła!, możesz podnosić lepsze zbroje");
+			}
 		}
 		updateHT(true);
 	}
