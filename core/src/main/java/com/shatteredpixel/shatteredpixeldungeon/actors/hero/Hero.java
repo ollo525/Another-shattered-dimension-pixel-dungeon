@@ -2594,6 +2594,7 @@ public class Hero extends Char {
 			}
 
 			// TRACENIE CZASU (Tylko tutaj!)
+			GLog.i("Trace czasu: " + searchTime);
 			spendAndNext(searchTime);
 		}
 		// --- KONIEC TWOJEGO POPRAWNEGO BLOKU ---
@@ -2612,7 +2613,6 @@ float searchTime = TIME_TO_SEARCH; // domyślnie 2 tury
 					searchTime = 4f;
 				}
 			}
-			spendAndNext(searchTime);
 			
 		}
 		
