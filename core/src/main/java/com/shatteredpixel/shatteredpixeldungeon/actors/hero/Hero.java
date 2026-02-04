@@ -2563,7 +2563,7 @@ public class Hero extends Char {
 						}
 					}
 				}
-			}
+			
 		
 		
 		if (intentional) {
