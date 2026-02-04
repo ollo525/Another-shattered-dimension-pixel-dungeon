@@ -2566,33 +2566,37 @@ public class Hero extends Char {
 			
 		
 		
+		// --- POCZĄTEK TWOJEGO POPRAWNEGO BLOKU ---
 		if (intentional) {
 			sprite.showStatus( CharSprite.DEFAULT, Messages.get(this, "search") );
 			sprite.operate( pos );
 			
+			// UCZENIE SIĘ SPOSTRZEGAWCZOŚCI
 			seeProg++;
 			if (seeProg >= (seeLv * 2) && seeLv < 10) {
 				seeLv++; seeProg = 0;
 				GLog.p("Twoja spostrzegawczość wzrosła do poziomu " + seeLv + "!");
-				
-				// Sprawdzamy czy ten awans podbił Tier i dał HP
-				int oldHT = HT;
 				updateHT(true); 
-				if (HT > oldHT) {
-					GLog.i("+5 HP za nowy Tier!");
-				} else {
-					GLog.i("Potrzebujesz więcej treningu walki, by zyskać HP z Tieru!");
-				}
 			}
 
-			// CZAS TRWANIA:
+			// MECHANIKA 4 TUR (Twoja szansa: 100% - 10% za każdy poziom)
 			float searchTime = 2f; 
-			if (smthFound && Random.Float() < (1.0f - (0.1f * seeLv))) {
-				searchTime = 4f;
-				GLog.i("Znalezienie czegoś zajęło Ci chwilę...");
+			if (smthFound) {
+				if (Random.Float() < (1.0f - (0.1f * seeLv))) {
+					searchTime = 4f;
+					GLog.i("Znalezienie czegoś zajęło Ci dłuższą chwilę...");
+				}
 			}
+			
+			// GŁÓD ZA SZUKANIE (z oryginału)
+			if (!Dungeon.level.locked) {
+				Buff.affect(this, Hunger.class).affectHunger(searchTime - HUNGER_FOR_SEARCH);
+			}
+
+			// TRACENIE CZASU (Tylko tutaj!)
 			spendAndNext(searchTime);
 		}
+		// --- KONIEC TWOJEGO POPRAWNEGO BLOKU ---
 			if (!Dungeon.level.locked) {
 				if (cursed) {
 					GLog.n(Messages.get(this, "search_distracted"));
