@@ -2564,31 +2564,32 @@ public class Hero extends Char {
 					}
 				}
 			}
-		}
+		
 		
 		if (intentional) {
 			sprite.showStatus( CharSprite.DEFAULT, Messages.get(this, "search") );
 			sprite.operate( pos );
-						// TRENING SPOSTRZEGAWCZOŚCI
+			
 			seeProg++;
 			if (seeProg >= (seeLv * 2) && seeLv < 10) {
 				seeLv++; seeProg = 0;
-				GLog.p("Spostrzegawczość wzrasta do poziomu " + seeLv + "!");
-				// BOTTLE-NECK HP
-				if (attLv >= seeLv && defLv >= seeLv) {
-					HTBoost += 5; updateHT(true);
-					GLog.i("+5 HP za kolejny tier!");
+				GLog.p("Twoja spostrzegawczość wzrosła do poziomu " + seeLv + "!");
+				
+				// Sprawdzamy czy ten awans podbił Tier i dał HP
+				int oldHT = HT;
+				updateHT(true); 
+				if (HT > oldHT) {
+					GLog.i("+5 HP za nowy Tier!");
+				} else {
+					GLog.i("Potrzebujesz więcej treningu walki, by zyskać HP z Tieru!");
 				}
 			}
 
-			// CZAS TRWANIA
+			// CZAS TRWANIA:
 			float searchTime = 2f; 
-			if (smthFound) {
-				// Szansa na 4 tury: 100% - (10 * seeLv)%
-				if (Random.Float() < (1.0f - (0.1f * seeLv))) {
-					searchTime = 4f;
-					GLog.i("Znalezienie czegoś zajęło Ci chwilę...");
-				}
+			if (smthFound && Random.Float() < (1.0f - (0.1f * seeLv))) {
+				searchTime = 4f;
+				GLog.i("Znalezienie czegoś zajęło Ci chwilę...");
 			}
 			spendAndNext(searchTime);
 		}
