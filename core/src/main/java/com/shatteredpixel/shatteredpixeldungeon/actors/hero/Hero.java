@@ -199,6 +199,10 @@ public class Hero extends Char {
 	public static final int MAX_LEVEL = 30;
 
 	public static final int STARTING_STR = 10;
+
+	public int attLv = 1, attProg = 0;
+	public int defLv = 1, defProg = 0;
+	public int seeLv = 1, seeProg = 0;
 	
 	private static final float TIME_TO_REST		    = 1f;
 	private static final float TIME_TO_SEARCH	    = 2f;
@@ -254,7 +258,7 @@ public class Hero extends Char {
 	public void updateHT( boolean boostHP ){
 		int curHT = HT;
 		
-		HT = 20 + 5*(lvl-1) + HTBoost;
+		HT = 20 + HTBoost;
 		float multiplier = RingOfMight.HTMultiplier(this);
 		HT = Math.round(multiplier * HT);
 		
@@ -490,6 +494,7 @@ public class Hero extends Char {
 	@Override
 	public boolean attack(Char enemy, float dmgMulti, float dmgBonus, float accMulti) {
 		boolean result = super.attack(enemy, dmgMulti, dmgBonus, accMulti);
+		if (result && enemy.alignment == Alignment.ENEMY) checkSkill("att");
 		if (!(belongings.attackingWeapon() instanceof MissileWeapon)){
 			if (buff(Talent.PreciseAssaultTracker.class) != null){
 				buff(Talent.PreciseAssaultTracker.class).detach();
@@ -1632,6 +1637,7 @@ public class Hero extends Char {
 		int preHP = HP + shielding();
 		if (src instanceof Hunger) preHP -= shielding();
 		super.damage( dmg, src );
+		if (src instanceof Mob) checkSkill("def");
 		int postHP = HP + shielding();
 		if (src instanceof Hunger) postHP -= shielding();
 		int effectiveDamage = preHP - postHP;
@@ -2544,6 +2550,17 @@ public class Hero extends Char {
 							ScrollOfMagicMapping.discover( curr );
 							
 							if (fieldOfView[curr]) smthFound = true;
+							seeProg++;
+							if (seeProg >= (1 * seeLv) && seeLv < 10) {
+								seeLv++; seeProg = 0;
+								GLog.p("Spostrzegawczość wzrasta do poziomu " + seeLv + "!");
+								// LOGIKA BOTTLE-NECK: HP tylko jeśli walka nadąża
+								if (attLv >= seeLv && defLv >= seeLv) {
+									HTBoost += 5;
+									updateHT(true);
+									GLog.i("+5 HP za kolejny tier!");
+								}
+							}
 	
 							if (talisman != null){
 								if (oldValue == Terrain.SECRET_TRAP){
@@ -2569,7 +2586,14 @@ public class Hero extends Char {
 					Buff.affect(this, Hunger.class).affectHunger(TIME_TO_SEARCH - HUNGER_FOR_SEARCH);
 				}
 			}
-			spendAndNext(TIME_TO_SEARCH);
+float searchTime = TIME_TO_SEARCH; // domyślnie 2 tury
+			if (smthFound) {
+				// Twoja szansa na 4 tury: 100% - (10 * seeLv)%
+				if (Random.Float() < (1.0f - (0.1f * seeLv))) {
+					searchTime = 4f;
+				}
+			}
+			spendAndNext(searchTime);
 			
 		}
 		
@@ -2633,4 +2657,34 @@ public class Hero extends Char {
 	public static interface Doom {
 		public void onDeath();
 	}
+	private void checkSkill(String type) {
+		if (type.equals("att") && attLv < 10) {
+			attProg++;
+			if (attProg >= (5 + (5 * attLv))) {
+				attLv++; attProg = 0;
+				attackSkill += 3; // +3 celności na poziom
+				gainSkillReward("Atak", attLv);
+			}
+		} else if (type.equals("def") && defLv < 10) {
+			defProg++;
+			if (defProg >= (3 + (3 * defLv))) {
+				defLv++; defProg = 0;
+				defenseSkill += 3; // +3 uniku na poziom
+				gainSkillReward("Obrona", defLv);
+			}
+		}
+	}
+
+	private void gainSkillReward(String name, int level) {
+		GLog.p(name + " wzrasta do poziomu " + level + "!");
+		HTBoost += 5; // +5 HP za poziom
+		
+		// Twoja logika Siły (+2 na progach 3, 5, 7, 10)
+		if (level == 3 || level == 5 || level == 7 || level == 10) {
+			STR += 2;
+			GLog.p("Twoja Siła wzrosła! (+2 STR)");
+		}
+		updateHT(true);
+	}
+
 }
