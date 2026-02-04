@@ -2506,7 +2506,7 @@ public class Hero extends Char {
 					}
 					
 					if (Dungeon.level.secret[curr]){
-						
+					int oldValue = Dungeon.level.map[curr];	
 						Trap trap = Dungeon.level.traps.get( curr );
 						float chance;
 
@@ -2542,7 +2542,7 @@ public class Hero extends Char {
 						
 						if (Random.Float() < chance) {
 						
-							int oldValue = Dungeon.level.map[curr];
+							
 							
 							GameScene.discoverTile( curr, oldValue );
 							
