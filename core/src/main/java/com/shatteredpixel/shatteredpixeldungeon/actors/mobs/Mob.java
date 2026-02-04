@@ -481,6 +481,9 @@ public abstract class Mob extends Char {
 	}
 
 	private boolean cellIsPathable( int cell ){
+    if (Dungeon.level.distance(pos, cell) > 1) {
+        return false;
+    }}
 		if (!Dungeon.level.passable[cell]){
 			if (flying || buff(Amok.class) != null){
 				if (!Dungeon.level.avoid[cell]){
