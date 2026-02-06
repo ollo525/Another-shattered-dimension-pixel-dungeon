@@ -2578,7 +2578,7 @@ public class Hero extends Char {
 			}
 
 			// MECHANIKA 4 TUR (Twoja szansa: 100% - 10% za każdy poziom)
-			float searchTime = 2f
+			float searchTime = 2f;
 			
 			// GŁÓD ZA SZUKANIE (z oryginału)
 			if (!Dungeon.level.locked) {
