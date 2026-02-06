@@ -2437,8 +2437,6 @@ public class Hero extends Char {
 					spend(Key.TIME_TO_UNLOCK);
 				}
 			}
-			
-		}
 		curAction = null;
 
 		if (!ready) {
@@ -2580,22 +2578,14 @@ public class Hero extends Char {
 			}
 
 			// MECHANIKA 4 TUR (Twoja szansa: 100% - 10% za każdy poziom)
-			float searchTime = 2f; 
-			if (smthFound) {
-				if (Random.Float() < (1.0f - (0.1f * seeLv))) {
-					searchTime = 4f;
-					GLog.i("Znalezienie czegoś zajęło Ci dłuższą chwilę...");
-				}
-			}
+			float searchTime = 2f
 			
 			// GŁÓD ZA SZUKANIE (z oryginału)
 			if (!Dungeon.level.locked) {
 				Buff.affect(this, Hunger.class).affectHunger(searchTime - HUNGER_FOR_SEARCH);
-			}
 
 			// TRACENIE CZASU (Tylko tutaj!)
-			GLog.i("Trace czasu: " + searchTime);
-			spendAndNext(searchTime);
+			
 		}
 		// --- KONIEC TWOJEGO POPRAWNEGO BLOKU ---
 			if (!Dungeon.level.locked) {
@@ -2611,9 +2601,9 @@ float searchTime = TIME_TO_SEARCH; // domyślnie 2 tury
 				// Twoja szansa na 4 tury: 100% - (10 * seeLv)%
 				if (Random.Float() < (1.0f - (0.1f * seeLv))) {
 					searchTime = 4f;
+					spendAndNext(searchTime);
 				}
 			}
-			
 		}
 		
 		if (smthFound) {
@@ -2631,6 +2621,7 @@ float searchTime = TIME_TO_SEARCH; // domyślnie 2 tury
 		}
 		
 		return smthFound;
+	}
 	}
 	
 	public void resurrect() {
