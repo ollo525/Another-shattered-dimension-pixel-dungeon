@@ -2437,12 +2437,13 @@ public class Hero extends Char {
 					spend(Key.TIME_TO_UNLOCK);
 				}
 			}
+		}
 		curAction = null;
 
 		if (!ready) {
 			super.onOperateComplete();
 		}
-	}
+	
 	}
 	public boolean search( boolean intentional ) {
 		
