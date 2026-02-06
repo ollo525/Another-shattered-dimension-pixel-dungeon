@@ -2562,7 +2562,7 @@ public class Hero extends Char {
 						}
 					}
 				}
-			
+			}
 		
 		
 		// --- POCZĄTEK TWOJEGO POPRAWNEGO BLOKU ---
@@ -2621,7 +2621,7 @@ public class Hero extends Char {
 			talisman.checkAwareness();
 		}
 		
-	}
+	
 	return smthFound;
 	}
 	
