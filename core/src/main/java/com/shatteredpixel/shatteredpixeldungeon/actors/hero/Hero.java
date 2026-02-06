@@ -2596,7 +2596,7 @@ public class Hero extends Char {
 					Buff.affect(this, Hunger.class).affectHunger(TIME_TO_SEARCH - HUNGER_FOR_SEARCH);
 				}
 			}
-float searchTime = TIME_TO_SEARCH; // domyślnie 2 tury
+			 searchTime = TIME_TO_SEARCH; // domyślnie 2 tury
 			if (smthFound) {
 				// Twoja szansa na 4 tury: 100% - (10 * seeLv)%
 				if (Random.Float() < (1.0f - (0.1f * seeLv))) {
