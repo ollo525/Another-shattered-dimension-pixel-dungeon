@@ -2443,7 +2443,7 @@ public class Hero extends Char {
 			super.onOperateComplete();
 		}
 	}
-
+	}
 	public boolean search( boolean intentional ) {
 		
 		if (!isAlive()) return false;
