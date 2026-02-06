@@ -2703,4 +2703,4 @@ public class Hero extends Char {
 		updateHT(true);
 	}
 
-}
+
