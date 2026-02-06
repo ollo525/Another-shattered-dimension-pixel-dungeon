@@ -2620,8 +2620,8 @@ public class Hero extends Char {
 			talisman.checkAwareness();
 		}
 		
-		return smthFound;
 	}
+	return smthFound;
 	}
 	
 	public void resurrect() {
