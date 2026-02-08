@@ -293,7 +293,7 @@ abstract public class Weapon extends KindOfWeapon {
 		int encumbrance = 0;
 		
 		if( owner instanceof Hero ){
-			encumbrance = STRReq() - ((Hero)owner).STR();
+			encumbrance = (STRReq() - ((Hero) owner).attSTRBonus) - ((Hero) owner).STR();
 		}
 
 		float ACC = this.ACC;
@@ -313,7 +313,7 @@ abstract public class Weapon extends KindOfWeapon {
 	protected float baseDelay( Char owner ){
 		float delay = augment.delayFactor(this.DLY);
 		if (owner instanceof Hero) {
-			int encumbrance = STRReq() - ((Hero)owner).STR();
+			int encumbrance = (STRReq() - ((Hero) owner).attSTRBonus) - ((Hero) owner).STR();
 			if (encumbrance > 0){
 				delay *= Math.pow( 1.2, encumbrance );
 			}

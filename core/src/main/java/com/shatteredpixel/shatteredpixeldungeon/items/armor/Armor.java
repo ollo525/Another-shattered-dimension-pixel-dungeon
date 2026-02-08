@@ -418,7 +418,7 @@ public class Armor extends EquipableItem {
 		}
 		
 		if (owner instanceof Hero){
-			int aEnc = STRReq() - ((Hero) owner).STR();
+			int aEnc = (STRReq() - ((Hero) owner).defSTRBonus) - ((Hero) owner).STR() ;
 			if (aEnc > 0) evasion /= Math.pow(1.5, aEnc);
 			
 			Momentum momentum = owner.buff(Momentum.class);
@@ -433,7 +433,7 @@ public class Armor extends EquipableItem {
 	public float speedFactor( Char owner, float speed ){
 		
 		if (owner instanceof Hero) {
-			int aEnc = STRReq() - ((Hero) owner).STR();
+			int aEnc = (STRReq() - ((Hero) owner).defSTRBonus) - ((Hero) owner).STR() ;
 			if (aEnc > 0) speed /= Math.pow(1.2, aEnc);
 		}
 		
@@ -581,20 +581,19 @@ public class Armor extends EquipableItem {
 	}
 	
 	@Override
-	public String info() {
+		public String info() {
 		String info = super.info();
 		
 		if (levelKnown) {
-
 			info += "\n\n" + Messages.get(Armor.class, "curr_absorb", tier, DRMin(), DRMax(), STRReq());
 			
-			if (Dungeon.hero != null && STRReq() > Dungeon.hero.STR()) {
+			if (Dungeon.hero != null && STRReq() > (Dungeon.hero.STR() + Dungeon.hero.defSTRBonus)) {
 				info += " " + Messages.get(Armor.class, "too_heavy");
 			}
 		} else {
 			info += "\n\n" + Messages.get(Armor.class, "avg_absorb", tier, DRMin(0), DRMax(0), STRReq(0));
 
-			if (Dungeon.hero != null && STRReq(0) > Dungeon.hero.STR()) {
+			if (Dungeon.hero != null && STRReq(0) > (Dungeon.hero.STR() + Dungeon.hero.defSTRBonus)) {
 				info += " " + Messages.get(Armor.class, "probably_too_heavy");
 			}
 		}

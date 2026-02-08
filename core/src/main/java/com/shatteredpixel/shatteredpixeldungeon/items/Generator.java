@@ -52,6 +52,8 @@ import com.shatteredpixel.shatteredpixeldungeon.items.bombs.Bomb;
 import com.shatteredpixel.shatteredpixeldungeon.items.food.Food;
 import com.shatteredpixel.shatteredpixeldungeon.items.food.MysteryMeat;
 import com.shatteredpixel.shatteredpixeldungeon.items.food.Pasty;
+import com.shatteredpixel.shatteredpixeldungeon.items.food.EmptyBottle;
+import com.shatteredpixel.shatteredpixeldungeon.items.food.WaterBottle;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.Potion;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfExperience;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfFrost;
@@ -535,7 +537,7 @@ public class Generator {
 			MIS_T5.probs = MIS_T5.defaultProbs.clone();
 			
 			FOOD.classes = new Class<?>[]{
-					Food.class,
+					EmptyBottle.class,
 					Pasty.class,
 					MysteryMeat.class };
 			FOOD.defaultProbs = new float[]{ 4, 1, 0 };
