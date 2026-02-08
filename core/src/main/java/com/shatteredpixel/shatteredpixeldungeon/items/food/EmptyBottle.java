@@ -1,6 +1,7 @@
 package com.shatteredpixel.shatteredpixeldungeon.items.food;
 
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
+import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
@@ -21,13 +22,11 @@ public class EmptyBottle extends Item {
 	public String name() {
 		return "Empty Bottle (" + durability + "/3)";
 	}
-
 	@Override
-	public ArrayList<String> actions(Hero hero) {
-		ArrayList<String> actions = super.actions(hero);
-		actions.add("NAPEŁNIJ");
-		return actions;
+	public String desc() {
+		return Messages.get(this, "desc");
 	}
+
 	@Override
 	public ArrayList<String> actions(Hero hero) {
 		ArrayList<String> actions = super.actions(hero);
@@ -86,8 +85,5 @@ public class EmptyBottle extends Item {
 		return Messages.get(this, "name");
 	}
 
-	@Override
-	public String desc() {
-		return Messages.get(this, "desc");
-	}
+
 }
