@@ -208,6 +208,9 @@ public class GameScene extends PixelScene {
 	private ActionIndicator action;
 	private ResumeIndicator resume;
 
+	private float dizzyTimer = 0;
+	private float dizzyDuration = 0;
+
 	{
 		inGameScene = true;
 	}
@@ -853,6 +856,36 @@ public class GameScene extends PixelScene {
 		}
 
 		super.update();
+
+		// --- EFEKT ODOWDNIENIA (DIZZY EFFECT) ---
+		if (Dungeon.hero != null && Dungeon.hero.isStarving()) {
+			
+			float delta = Game.elapsed;
+			dizzyTimer += delta;
+
+			// Losujemy moment ataku zawrotów głowy (co 5-8 sekund)
+			if (dizzyTimer >= 5 + Random.Float(3)) {
+				dizzyDuration = 1 + Random.Float(1); // Trwa 1-2 sekundy
+				dizzyTimer = 0;
+			}
+
+			if (dizzyDuration > 0) {
+				dizzyDuration -= delta;
+				
+				// Pływanie kamery (Lekki shift)
+				Camera.main.scroll.x += Random.Float(-2f, 2f);
+				Camera.main.scroll.y += Random.Float(-2f, 2f);
+				
+				// Udawany blur (skakanie zoomu)
+				Camera.main.zoom += Random.Float(-0.01f, 0.01f);
+
+				// Mroczki przed oczami (półprzezroczyste błyski)
+				if (Random.Float() < 0.1f) {
+					flash(0x11000000, false); // Ciemne mroczki
+				}
+			}
+		}
+		// ----------------------------------------
 
 		if (notifyDelay > 0) notifyDelay -= Game.elapsed;
 
