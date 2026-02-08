@@ -30,7 +30,6 @@ public class WaterBottle extends Food {
 		detach(hero.belongings.backpack);
 
 		if (durability > 0) {
-			GLog.i("Wypiłeś wodę. Butelka jest pusta.");
 			// SPAWNOWANIE PUSTEJ
 			EmptyBottle empty = new EmptyBottle();
 			empty.durability = this.durability; // Przekazujemy "życie" butelki
@@ -38,7 +37,7 @@ public class WaterBottle extends Food {
 				com.shatteredpixel.shatteredpixeldungeon.Dungeon.level.drop(empty, hero.pos).sprite.drop();
 			}
 		} else {
-			GLog.w("Gdy wypiłeś ostatni łyk, butelka pękła!");
+			GLog.w("The bottle shatters as you swallow the last drop!");
 		}
 	}
 

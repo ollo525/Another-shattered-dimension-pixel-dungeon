@@ -54,11 +54,11 @@ public class EmptyBottle extends Item {
 					Dungeon.level.drop(water, hero.pos).sprite.drop();
 				}
 				
-				GLog.i("Napełniłeś butelkę.");
+				GLog.i("You filled the bottle");
 				hero.spendAndNext(1f);
 				
 			} else {
-				GLog.w("Musisz stać w wodzie!");
+				GLog.w("You need to stay in water!");
 			}
 		} else {
 			super.execute(hero, action);
