@@ -15,23 +15,8 @@ public class EmptyBottle extends Item {
 	public int durability = 3;
 
 	{
-		image = ItemSpriteSheet.EMPTY_BOTTLE; // Indeks FOOD+13
+		image = ItemSpriteSheet.EMPTY_BOTTLE;
 		stackable = false;
-	}
-
-	@Override
-	public String name() {
-		return Messages.get(this, "name") + " (" + durability + "/3)";
-	}
-
-	@Override
-	public String desc() {
-		return Messages.get(this, "desc");
-	}
-
-	@Override
-	public boolean isIdentified() {
-		return true;
 	}
 
 	@Override
@@ -40,6 +25,12 @@ public class EmptyBottle extends Item {
 		actions.add("FILL");
 		return actions;
 	}
+
+	@Override
+	public boolean isIdentified() {
+		return true;
+	}
+
 
 	@Override
 	public void execute(Hero hero, String action) {
