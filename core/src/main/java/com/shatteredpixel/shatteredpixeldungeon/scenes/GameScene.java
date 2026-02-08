@@ -873,7 +873,7 @@ public class GameScene extends PixelScene {
 				dizzyDuration -= delta;
 				
 				// Używamy czasu gry, żeby stworzyć gładką falę (pływanie)
-				float time = Game.time * 3f; // Szybkość falowania
+				float time = Game.realTime * 3f; // Szybkość falowania
 				float intensity = 5f; // Jak mocno kamera "odpływa" w pikselach
 				
 				// Płynne wychylenie lewo-prawo i góra-dół
