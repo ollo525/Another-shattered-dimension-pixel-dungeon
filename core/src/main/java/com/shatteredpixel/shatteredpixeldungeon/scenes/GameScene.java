@@ -857,36 +857,34 @@ public class GameScene extends PixelScene {
 
 		super.update();
 
-		// --- EFEKT ODOWDNIENIA (DIZZY EFFECT) ---
+		// --- EFEKT ODOWDNIENIA (SMOOTH DIZZY) ---
 		if (Dungeon.hero != null && Dungeon.hero.isStarving()) {
 			
 			float delta = Game.elapsed;
 			dizzyTimer += delta;
 
-			// Losujemy moment ataku zawrotów głowy (co 5-8 sekund)
+			// Co 5-8 sekund postać traci równowagę
 			if (dizzyTimer >= 5 + Random.Float(3)) {
-				dizzyDuration = 1 + Random.Float(1); // Trwa 1-2 sekundy
+				dizzyDuration = 2f; // Efekt trwa teraz równe 2 sekundy
 				dizzyTimer = 0;
 			}
 
 			if (dizzyDuration > 0) {
 				dizzyDuration -= delta;
 				
-				// Pływanie kamery (Lekki shift)
-				Camera.main.scroll.x += Random.Float(-2f, 2f);
-				Camera.main.scroll.y += Random.Float(-2f, 2f);
+				// Używamy czasu gry, żeby stworzyć gładką falę (pływanie)
+				float time = Game.time * 3f; // Szybkość falowania
+				float intensity = 5f; // Jak mocno kamera "odpływa" w pikselach
 				
-				// Udawany blur (skakanie zoomu)
-				Camera.main.zoom += Random.Float(-0.01f, 0.01f);
-
-				// Mroczki przed oczami (półprzezroczyste błyski)
-				if (Random.Float() < 0.1f) {
-					flash(0x11000000, false); // Ciemne mroczki
-				}
+				// Płynne wychylenie lewo-prawo i góra-dół
+				Camera.main.scroll.x += (float)Math.sin(time) * intensity * delta;
+				Camera.main.scroll.y += (float)Math.cos(time * 0.7f) * intensity * delta;
+				
+				// Delikatne pulsowanie zoomu (udawany brak ostrości)
+				Camera.main.zoom += (float)Math.sin(time * 0.5f) * 0.005f;
 			}
 		}
-		// ----------------------------------------
-
+		//------------------------
 		if (notifyDelay > 0) notifyDelay -= Game.elapsed;
 
 		if (!Emitter.freezeEmitters) {
