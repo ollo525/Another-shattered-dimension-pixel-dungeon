@@ -19,7 +19,7 @@ public class EmptyBottle extends Item {
 
 	@Override
 	public String name() {
-		return "Pusta butelka (" + durability + "/3)";
+		return "Empty Bottle (" + durability + "/3)";
 	}
 
 	@Override
@@ -28,10 +28,16 @@ public class EmptyBottle extends Item {
 		actions.add("NAPEŁNIJ");
 		return actions;
 	}
-
+	@Override
+	public ArrayList<String> actions(Hero hero) {
+		ArrayList<String> actions = super.actions(hero);
+		actions.add("FILL"); // Używamy klucza "FILL"
+		return actions;
+	}
 	@Override
 	public void execute(Hero hero, String action) {
-		if (action.equals("NAPEŁNIJ")) {
+		if (action.equals("FILL")) { // Tu też musi być "FILL"!
+			
 			if (Dungeon.level.water[hero.pos]) {
 				
 				// USUWANIE SIEBIE
@@ -44,12 +50,13 @@ public class EmptyBottle extends Item {
 					Dungeon.level.drop(water, hero.pos).sprite.drop();
 				}
 				
-				GLog.i("Napełniłeś butelkę.");
+				GLog.i("You filled the bottle");
 				hero.spendAndNext(1f);
 				
 			} else {
-				GLog.w("Musisz stać w wodzie!");
+				GLog.w("You need to stay in water!");
 			}
+			
 		} else {
 			super.execute(hero, action);
 		}
@@ -73,5 +80,14 @@ public class EmptyBottle extends Item {
     	@Override
 	public boolean isUpgradable() {
 		return false;
+	}
+		@Override
+	public String name() {
+		return Messages.get(this, "name");
+	}
+
+	@Override
+	public String desc() {
+		return Messages.get(this, "desc");
 	}
 }

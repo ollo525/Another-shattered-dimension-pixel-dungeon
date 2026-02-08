@@ -857,34 +857,6 @@ public class GameScene extends PixelScene {
 
 		super.update();
 
-		// --- EFEKT ODOWDNIENIA (SMOOTH DIZZY) ---
-		if (Dungeon.hero != null && Dungeon.hero.isStarving()) {
-			
-			float delta = Game.elapsed;
-			dizzyTimer += delta;
-
-			// Co 5-8 sekund postać traci równowagę
-			if (dizzyTimer >= 5 + Random.Float(3)) {
-				dizzyDuration = 2f; // Efekt trwa teraz równe 2 sekundy
-				dizzyTimer = 0;
-			}
-
-			if (dizzyDuration > 0) {
-				dizzyDuration -= delta;
-				
-				// Używamy czasu gry, żeby stworzyć gładką falę (pływanie)
-				float time = Game.realTime * 3f; // Szybkość falowania
-				float intensity = 5f; // Jak mocno kamera "odpływa" w pikselach
-				
-				// Płynne wychylenie lewo-prawo i góra-dół
-				Camera.main.scroll.x += (float)Math.sin(time) * intensity * delta;
-				Camera.main.scroll.y += (float)Math.cos(time * 0.7f) * intensity * delta;
-				
-				// Delikatne pulsowanie zoomu (udawany brak ostrości)
-				Camera.main.zoom += (float)Math.sin(time * 0.5f) * 0.005f;
-			}
-		}
-		//------------------------
 		if (notifyDelay > 0) notifyDelay -= Game.elapsed;
 
 		if (!Emitter.freezeEmitters) {
