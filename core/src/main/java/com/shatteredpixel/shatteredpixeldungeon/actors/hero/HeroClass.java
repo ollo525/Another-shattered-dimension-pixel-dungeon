@@ -81,6 +81,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.ThrowingSt
 import com.shatteredpixel.shatteredpixeldungeon.journal.Catalog;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.watabou.utils.DeviceCompat;
+import com.shatteredpixel.shatteredpixeldungeon.items.food.EmptyBottle;
 
 public enum HeroClass {
 
@@ -105,7 +106,7 @@ public enum HeroClass {
 		Item i = new ClothArmor().identify();
 		if (!Challenges.isItemBlocked(i)) hero.belongings.armor = (ClothArmor)i;
 
-		i = new Food();
+		i = new EmptyBottle();
 		if (!Challenges.isItemBlocked(i)) i.collect();
 
 		new VelvetPouch().collect();

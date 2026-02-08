@@ -63,19 +63,34 @@ public class AboutScene extends PixelScene {
 
 		Component content = list.content();
 		content.clear();
+		//*** Another Shattered Dimension Credits ***
+		final int OLLO_COLOR = 0xFFDC76ED; 
+		CreditsBlock ollo = new CreditsBlock(true, OLLO_COLOR,
+				"Another Shattered Dimension",
+				null, 
+				"Developed by: _ollo525_\nBased on Shattered Pixel Dungeon's open source\ndiscord: _ollo525_\n(yea i dont have webside :3)",
+				null,
+				null);
+		
+		if (landscape()){
+			ollo.setRect((w - fullWidth)/2f - 6, insets.top + 10, 120, 0);
+		} else {
+			ollo.setRect((w - fullWidth)/2f, insets.top + 6, 120, 0);
+		}
+		content.add(ollo);
 
 		//*** Shattered Pixel Dungeon Credits ***
-
 		CreditsBlock shpx = new CreditsBlock(true, Window.SHPX_COLOR,
 				"Shattered Pixel Dungeon",
 				Icons.SHPX.get(),
 				"Developed by: _Evan Debenham_\nBased on Pixel Dungeon's open source",
 				"ShatteredPixel.com",
 				"https://ShatteredPixel.com");
+
 		if (landscape()){
-			shpx.setRect((w - fullWidth)/2f - 6, insets.top + 10, 120, 0);
+			shpx.setRect(ollo.left(), ollo.bottom() + 10, 120, 0);
 		} else {
-			shpx.setRect((w - fullWidth)/2f, insets.top + 6, 120, 0);
+			shpx.setRect(ollo.left(), ollo.bottom() + 8, 120, 0);
 		}
 		content.add(shpx);
 
@@ -92,6 +107,7 @@ public class AboutScene extends PixelScene {
 			alex.setPos(w/2f - colWidth/2f, shpx.bottom()+5);
 		}
 		content.add(alex);
+		addLine(alex.top() - 4, content);
 
 		CreditsBlock celesti = new CreditsBlock(false, Window.SHPX_COLOR,
 				"Sound Effects:",

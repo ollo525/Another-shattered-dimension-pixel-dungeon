@@ -66,4 +66,12 @@ public class EmptyBottle extends Item {
 		super.restoreFromBundle(bundle);
 		durability = bundle.getInt("durability");
 	}
+    	@Override
+	public boolean isIdentified() {
+		return true;
+	}
+    	@Override
+	public boolean isUpgradable() {
+		return false;
+	}
 }
