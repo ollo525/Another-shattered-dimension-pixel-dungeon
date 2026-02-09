@@ -433,7 +433,8 @@ public class Armor extends EquipableItem {
 	public float speedFactor( Char owner, float speed ){
 		
 		if (owner instanceof Hero) {
-			int aEnc = (STRReq() - ((Hero) owner).defSTRBonus) - ((Hero) owner).STR() ;
+
+			int aEnc = (STRReq() - ((Hero) owner).defSTRBonus) - ((Hero) owner).STR();
 			if (aEnc > 0) speed /= Math.pow(1.2, aEnc);
 		}
 		
