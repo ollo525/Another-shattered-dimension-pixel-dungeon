@@ -190,8 +190,8 @@ public class WndHero extends WndTabbed {
 			else                        statSlot( Messages.get(this, "health"), (hero.HP) + "/" + hero.HT );
 
 			// TWOJE NOWE SKILLE:
-			statSlot( "Atak", hero.attLv + " (" + hero.attProg + "/" + ((5+(5*hero.attLv))*2) + ")" );
-			statSlot( "Obrona", hero.defLv + " (" + hero.defProg + "/" + ((3+(3*hero.defLv))*2) + ")" );
+			statSlot( "Atak", hero.attLv + " (" + hero.attProg + "/" + ((25+(10*hero.attLv))) + ")" );
+			statSlot( "Obrona", hero.defLv + " (" + hero.defProg + "/" + ((15+(6*hero.defLv))) + ")" );
 			statSlot( "Czujność", hero.seeLv + " (" + hero.seeProg + "/" + (hero.seeLv*2) + ")" );
 
 			pos += GAP;
