@@ -22,7 +22,7 @@ public class EmptyBottle extends Item {
 	@Override
 	public ArrayList<String> actions(Hero hero) {
 		ArrayList<String> actions = super.actions(hero);
-		actions.add("FILL");
+		actions.add("fill");
 		return actions;
 	}
 
@@ -34,7 +34,7 @@ public class EmptyBottle extends Item {
 
 	@Override
 	public void execute(Hero hero, String action) {
-		if (action.equals("FILL")) {
+		if (action.equals("fill")) {
 			if (Dungeon.level.water[hero.pos]) {
 				
 				detach(hero.belongings.backpack);
@@ -44,12 +44,11 @@ public class EmptyBottle extends Item {
 				if (!water.doPickUp(hero)) {
 					Dungeon.level.drop(water, hero.pos).sprite.drop();
 				}
-				
-				GLog.i("You filled the bottle");
+				GLog.i( Messages.get(this, "filled") );
 				hero.spendAndNext(1f);
 				
 			} else {
-				GLog.w("You need to stay in water!");
+				GLog.w( Messages.get(this, "need_water") );
 			}
 		} else {
 			super.execute(hero, action);

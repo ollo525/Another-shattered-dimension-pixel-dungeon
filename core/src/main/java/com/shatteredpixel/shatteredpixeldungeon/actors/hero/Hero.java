@@ -294,6 +294,16 @@ public class Hero extends Char {
 	private static final String SUBCLASS    = "subClass";
 	private static final String ABILITY     = "armorAbility";
 
+	private static final String ATT_LV = "attLv";
+	private static final String ATT_PROG = "attProg";
+	private static final String DEF_LV = "defLv";
+	private static final String DEF_PROG = "defProg";
+	private static final String SEE_LV = "seeLv";
+	private static final String SEE_PROG = "seeProg";
+
+	private static final String ATT_STR_BONUS = "attSTRBonus";
+	private static final String DEF_STR_BONUS = "defSTRBonus";
+
 	private static final String ATTACK		= "attackSkill";
 	private static final String DEFENSE		= "defenseSkill";
 	private static final String STRENGTH	= "STR";
@@ -316,6 +326,16 @@ public class Hero extends Char {
 		
 		bundle.put( STRENGTH, STR );
 		
+		bundle.put( ATT_LV, attLv );
+		bundle.put( ATT_PROG, attProg );
+		bundle.put( DEF_LV, defLv );
+		bundle.put( DEF_PROG, defProg );
+		bundle.put( SEE_LV, seeLv );
+		bundle.put( SEE_PROG, seeProg );
+		
+		bundle.put( ATT_STR_BONUS, attSTRBonus );
+		bundle.put( DEF_STR_BONUS, defSTRBonus );
+
 		bundle.put( LEVEL, lvl );
 		bundle.put( EXPERIENCE, exp );
 		
@@ -343,6 +363,18 @@ public class Hero extends Char {
 		defenseSkill = bundle.getInt( DEFENSE );
 		
 		STR = bundle.getInt( STRENGTH );
+
+		if (bundle.contains(ATT_LV)) {
+			attLv = bundle.getInt(ATT_LV);
+			attProg = bundle.getInt(ATT_PROG);
+			defLv = bundle.getInt(DEF_LV);
+			defProg = bundle.getInt(DEF_PROG);
+			seeLv = bundle.getInt(SEE_LV);
+			seeProg = bundle.getInt(SEE_PROG);
+			
+			attSTRBonus = bundle.getInt(ATT_STR_BONUS);
+			defSTRBonus = bundle.getInt(DEF_STR_BONUS);
+		}
 
 		belongings.restoreFromBundle( bundle );
 	}
