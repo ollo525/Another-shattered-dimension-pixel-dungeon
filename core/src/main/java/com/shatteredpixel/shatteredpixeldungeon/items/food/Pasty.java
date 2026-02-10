@@ -10,7 +10,7 @@ import com.watabou.utils.Bundle;
 
 import java.util.ArrayList;
 
-public class EmptyBottle extends Item {
+public class Pasty extends Item {
 
 	public int durability = 2;
 
