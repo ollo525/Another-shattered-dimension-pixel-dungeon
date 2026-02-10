@@ -2704,7 +2704,7 @@ public class Hero extends Char {
 		if (type.equals("att") && attLv < 10) {
 			attProg++;
 			// PODWOJONY CZAS: (5 + (5 * attLv)) * 2
-			if (attProg >= (5 + (5 * attLv)) * 2) {
+			if (attProg >= (25 + (10 * attLv))) {
 				attLv++; attProg = 0;
 				attackSkill += 3;
 				gainSkillReward("Atak", attLv);
@@ -2712,7 +2712,7 @@ public class Hero extends Char {
 		} else if (type.equals("def") && defLv < 10) {
 			defProg++;
 			// PODWOJONY CZAS: (3 + (3 * defLv)) * 2
-			if (defProg >= (3 + (3 * defLv)) * 2) {
+			if (defProg >= (15 + (6 * defLv))) {
 				defLv++; defProg = 0;
 				defenseSkill += 3;
 				gainSkillReward("Obrona", defLv);

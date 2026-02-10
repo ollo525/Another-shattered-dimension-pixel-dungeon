@@ -329,7 +329,6 @@ public class Generator {
 			GOLD.probs = new float[]{ 1 };
 			
 			POTION.classes = new Class<?>[]{
-					PotionOfStrength.class, //2 drop every chapter, see Dungeon.posNeeded()
 					PotionOfHealing.class,
 					PotionOfMindVision.class,
 					PotionOfFrost.class,
@@ -341,8 +340,8 @@ public class Generator {
 					PotionOfParalyticGas.class,
 					PotionOfPurity.class,
 					PotionOfExperience.class};
-			POTION.defaultProbs  = new float[]{ 0, 3, 2, 1, 2, 1, 1, 1, 1, 1, 1, 1 };
-			POTION.defaultProbs2 = new float[]{ 0, 3, 2, 2, 1, 2, 1, 1, 1, 1, 1, 0 };
+			POTION.defaultProbs  = new float[]{ 3, 2, 1, 2, 1, 1, 1, 1, 1, 1, 1 };
+			POTION.defaultProbs2 = new float[]{ 3, 2, 2, 1, 2, 1, 1, 1, 1, 1, 0 };
 			POTION.probs = POTION.defaultProbs.clone();
 			
 			SEED.classes = new Class<?>[]{
