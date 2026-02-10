@@ -711,7 +711,7 @@ public class ItemSpriteSheet {
 	public static final int SUPPLY_RATION   = FOOD+12;
 	public static final int EMPTY_BOTTLE   = FOOD+13;
 	public static final int WATER_BOTTLE   = FOOD+14;
-	public static final int BIG_WATER_BOTTLE   = FOOD+14;
+	public static final int BIG_WATER_BOTTLE   = FOOD+15;
 	static{
 		assignItemRect(MEAT,            9, 12);
 		assignItemRect(STEAK,           15, 11);
