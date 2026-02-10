@@ -31,7 +31,7 @@ public String name() {
 
 		if (durability > 0) {
 			// SPAWNOWANIE PUSTEJ
-			EmptyBottle empty = new Pasty();
+			Pasty empty = new Pasty();
 			empty.durability = this.durability; // Przekazujemy "życie" butelki
 			if (!empty.doPickUp(hero)) {
 				com.shatteredpixel.shatteredpixeldungeon.Dungeon.level.drop(empty, hero.pos).sprite.drop();

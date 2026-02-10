@@ -38,8 +38,7 @@ public class Pasty extends Item {
 			if (Dungeon.level.water[hero.pos]) {
 				
 				detach(hero.belongings.backpack);
-				
-				WaterBottle water = new BigWaterBottle();
+				BigWaterBottle water = new BigWaterBottle();
 				water.durability = this.durability;
 				if (!water.doPickUp(hero)) {
 					Dungeon.level.drop(water, hero.pos).sprite.drop();
