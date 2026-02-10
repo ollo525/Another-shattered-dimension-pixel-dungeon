@@ -81,9 +81,9 @@ public class AboutScene extends PixelScene {
 		content.add(ollo);
 
 		CreditsBlock wilk = new CreditsBlock(true, OLLO_COLOR,
-				"Wilkur5!",
+				null,
 				null, 
-				"Emotional support, really needed it!",
+				"_Emotional support:_\n_Wilkur5_\nreally needed it!",
 				null,
 				null);
 		

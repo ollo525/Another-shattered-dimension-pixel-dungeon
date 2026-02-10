@@ -8,12 +8,12 @@ import com.watabou.utils.Bundle;
 
 public class WaterBottle extends Food {
 
-	public int durability = 3;
+	public int durability = 2;
 
 	{
-		image = ItemSpriteSheet.WATER_BOTTLE; // Indeks 14
+		image = ItemSpriteSheet.BIG_WATER_BOTTLE; // Indeks 14
 		stackable = false;
-		energy = Hunger.HUNGRY * 0.6f;
+		energy = Hunger.HUNGRY * 0.8f;
 	}
 
 @Override
@@ -30,7 +30,7 @@ public String name() {
 
 		if (durability > 0) {
 			// SPAWNOWANIE PUSTEJ
-			EmptyBottle empty = new EmptyBottle();
+			EmptyBottle empty = new Pasty();
 			empty.durability = this.durability; // Przekazujemy "życie" butelki
 			if (!empty.doPickUp(hero)) {
 				com.shatteredpixel.shatteredpixeldungeon.Dungeon.level.drop(empty, hero.pos).sprite.drop();

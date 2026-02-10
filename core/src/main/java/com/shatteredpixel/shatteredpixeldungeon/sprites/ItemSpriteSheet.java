@@ -711,14 +711,15 @@ public class ItemSpriteSheet {
 	public static final int SUPPLY_RATION   = FOOD+12;
 	public static final int EMPTY_BOTTLE   = FOOD+13;
 	public static final int WATER_BOTTLE   = FOOD+14;
+	public static final int BIG_WATER_BOTTLE   = FOOD+14;
 	static{
-		assignItemRect(MEAT,            15, 11);
+		assignItemRect(MEAT,            9, 12);
 		assignItemRect(STEAK,           15, 11);
 		assignItemRect(STEWED,          15, 11);
-		assignItemRect(OVERPRICED,      14, 11);
+		assignItemRect(OVERPRICED,      10, 12);
 		assignItemRect(CARPACCIO,       15, 11);
 		assignItemRect(RATION,          16, 12);
-		assignItemRect(PASTY,           16, 11);
+		assignItemRect(PASTY,           15, 16);
 		assignItemRect(MEAT_PIE,        16, 12);
 		assignItemRect(BLANDFRUIT,      9,  12);
 		assignItemRect(BLAND_CHUNKS,    14,  6);
@@ -727,6 +728,7 @@ public class ItemSpriteSheet {
 		assignItemRect(SUPPLY_RATION,   16, 12);
 		assignItemRect(EMPTY_BOTTLE,   13, 16);
 		assignItemRect(WATER_BOTTLE,   13, 16);
+		assignItemRect(BIG_WATER_BOTTLE,   15, 16);
 	}
 
 	private static final int HOLIDAY_FOOD   =                               xy(1, 29);  //16 slots
