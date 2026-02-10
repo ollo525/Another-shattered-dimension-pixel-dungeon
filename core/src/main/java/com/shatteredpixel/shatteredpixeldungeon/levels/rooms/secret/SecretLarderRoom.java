@@ -25,7 +25,7 @@ import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Hunger;
 import com.shatteredpixel.shatteredpixeldungeon.items.food.ChargrilledMeat;
 import com.shatteredpixel.shatteredpixeldungeon.items.food.Food;
-import com.shatteredpixel.shatteredpixeldungeon.items.food.Pasty;
+import com.shatteredpixel.shatteredpixeldungeon.items.food.WaterBottle;
 import com.shatteredpixel.shatteredpixeldungeon.levels.Level;
 import com.shatteredpixel.shatteredpixeldungeon.levels.Terrain;
 import com.shatteredpixel.shatteredpixeldungeon.levels.painters.Painter;
@@ -61,7 +61,7 @@ public class SecretLarderRoom extends SecretRoom {
 		while (extraFood > 0){
 			Food food;
 			if (extraFood >= Hunger.STARVING){
-				food = new Pasty();
+				food = new WaterBottle();
 				extraFood -= Hunger.STARVING;
 			} else {
 				food = new ChargrilledMeat();

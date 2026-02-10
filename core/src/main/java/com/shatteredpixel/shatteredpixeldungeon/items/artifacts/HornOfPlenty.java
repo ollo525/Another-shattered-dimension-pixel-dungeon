@@ -38,7 +38,6 @@ import com.shatteredpixel.shatteredpixeldungeon.items.bags.Bag;
 import com.shatteredpixel.shatteredpixeldungeon.items.food.Blandfruit;
 import com.shatteredpixel.shatteredpixeldungeon.items.food.Food;
 import com.shatteredpixel.shatteredpixeldungeon.items.food.MeatPie;
-import com.shatteredpixel.shatteredpixeldungeon.items.food.Pasty;
 import com.shatteredpixel.shatteredpixeldungeon.items.food.PhantomMeat;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfEnergy;
 import com.shatteredpixel.shatteredpixeldungeon.journal.Catalog;
@@ -228,7 +227,7 @@ public class HornOfPlenty extends Artifact {
 		
 		storedFoodEnergy += food.energy;
 		//Pasties and phantom meat are worth two upgrades instead of 1.5, meat pies are worth 4 instead of 3!
-		if (food instanceof Pasty || food instanceof PhantomMeat){
+		if (food instanceof PhantomMeat){
 			storedFoodEnergy += Hunger.HUNGRY/2;
 		} else if (food instanceof MeatPie){
 			storedFoodEnergy += Hunger.HUNGRY;
