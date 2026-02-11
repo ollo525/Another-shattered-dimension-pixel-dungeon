@@ -53,25 +53,22 @@ public class MeatPie extends Food {
 		@Override
 		public boolean testIngredients(ArrayList<Item> ingredients) {
 			boolean pasty = false;
-			boolean ration = false;
+			boolean water = false;
 			boolean meat = false;
 			
 			for (Item ingredient : ingredients){
 				if (ingredient.quantity() > 0) {
-					if (ingredient instanceof Pasty || ingredient instanceof PhantomMeat) {
+					if (ingredient instanceof BigWaterBottle) {
 						pasty = true;
-					} else if (ingredient.getClass() == Food.class) {
-						ration = true;
-					} else if (ingredient instanceof MysteryMeat
-							|| ingredient instanceof StewedMeat
-							|| ingredient instanceof ChargrilledMeat
-							|| ingredient instanceof FrozenCarpaccio) {
+					} else if (ingredient instanceof WaterBottle) {
+						water = true;
+					} else if (ingredient instanceof MysteryMeat) {
 						meat = true;
 					}
 				}
 			}
 			
-			return pasty && ration && meat;
+			return pasty && water && meat;
 		}
 		
 		@Override

@@ -2597,12 +2597,10 @@ public class Hero extends Char {
 			}
 		
 		
-		// --- POCZĄTEK TWOJEGO POPRAWNEGO BLOKU ---
 		if (intentional) {
 			sprite.showStatus( CharSprite.DEFAULT, Messages.get(this, "search") );
 			sprite.operate( pos );
 			
-			// UCZENIE SIĘ SPOSTRZEGAWCZOŚCI
 			seeProg++;
 			if (seeProg >= (seeLv * 2) && seeLv < 10) {
 				seeLv++; seeProg = 0;
@@ -2610,17 +2608,13 @@ public class Hero extends Char {
 				updateHT(true); 
 			}
 
-			// MECHANIKA 4 TUR (Twoja szansa: 100% - 10% za każdy poziom)
 			float searchTime = 2f;
 			
-			// GŁÓD ZA SZUKANIE (z oryginału)
 			if (!Dungeon.level.locked) {
 				Buff.affect(this, Hunger.class).affectHunger(searchTime - HUNGER_FOR_SEARCH);
 
-			// TRACENIE CZASU (Tylko tutaj!)
 			
 		}
-		// --- KONIEC TWOJEGO POPRAWNEGO BLOKU ---
 			if (!Dungeon.level.locked) {
 				if (cursed) {
 					GLog.n(Messages.get(this, "search_distracted"));
@@ -2629,9 +2623,8 @@ public class Hero extends Char {
 					Buff.affect(this, Hunger.class).affectHunger(TIME_TO_SEARCH - HUNGER_FOR_SEARCH);
 				}
 			}
-			 searchTime = TIME_TO_SEARCH; // domyślnie 2 tury
+			 searchTime = TIME_TO_SEARCH;
 			if (smthFound) {
-				// Twoja szansa na 4 tury: 100% - (10 * seeLv)%
 				if (Random.Float() < (1.0f - (0.1f * seeLv))) {
 					searchTime = 4f;
 					spendAndNext(searchTime);
