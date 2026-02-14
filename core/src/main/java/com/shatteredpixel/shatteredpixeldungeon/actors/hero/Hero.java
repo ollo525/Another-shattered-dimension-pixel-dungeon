@@ -247,6 +247,9 @@ public class Hero extends Char {
 	// for enemies we know we aren't seeing normally, resulting in better performance
 	public ArrayList<Mob> mindVisionEnemies = new ArrayList<>();
 
+	public int[][] sacrificedAttackStats = new int[5][2]; 
+	public int[][] sacrificedDefenseStats = new int[5][2];
+
 	public Hero() {
 		super();
 
@@ -342,6 +345,11 @@ public class Hero extends Char {
 		bundle.put( HTBOOST, HTBoost );
 
 		belongings.storeInBundle( bundle );
+
+		for (int i = 0; i < 5; i++) {
+        bundle.put("sac_att_" + i, sacrificedAttackStats[i]);
+        bundle.put("sac_def_" + i, sacrificedDefenseStats[i]);
+    }
 	}
 	
 	@Override
@@ -375,8 +383,6 @@ public class Hero extends Char {
 			attSTRBonus = bundle.getInt(ATT_STR_BONUS);
 			defSTRBonus = bundle.getInt(DEF_STR_BONUS);
 		}
-
-		belongings.restoreFromBundle( bundle );
 	}
 	
 	public static void preview( GamesInProgress.Info info, Bundle bundle ) {

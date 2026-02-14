@@ -543,7 +543,7 @@ public class ItemSpriteSheet {
 	public static final int ARCANE_RESIN    = SCROLLS+13;
 	static {
 		for (int i = SCROLLS; i < SCROLLS+16; i++)
-			assignItemRect(i, 15, 14);
+			assignItemRect(i, 11, 16);
 		assignItemRect(ARCANE_RESIN   , 12, 11);
 	}
 	
