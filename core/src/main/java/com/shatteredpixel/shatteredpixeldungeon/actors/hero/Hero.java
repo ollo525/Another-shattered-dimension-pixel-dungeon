@@ -247,9 +247,6 @@ public class Hero extends Char {
 	// for enemies we know we aren't seeing normally, resulting in better performance
 	public ArrayList<Mob> mindVisionEnemies = new ArrayList<>();
 
-	public int[][] sacrificedAttackStats = new int[5][2]; 
-	public int[][] sacrificedDefenseStats = new int[5][2];
-
 	public Hero() {
 		super();
 
@@ -346,10 +343,6 @@ public class Hero extends Char {
 
 		belongings.storeInBundle( bundle );
 
-		for (int i = 0; i < 5; i++) {
-        bundle.put("sac_att_" + i, sacrificedAttackStats[i]);
-        bundle.put("sac_def_" + i, sacrificedDefenseStats[i]);
-    }
 	}
 	
 	@Override

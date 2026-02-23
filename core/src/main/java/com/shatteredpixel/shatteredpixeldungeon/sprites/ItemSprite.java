@@ -318,6 +318,8 @@ public class ItemSprite extends MovieClip {
 		super.draw();
 
 	}
+	
+	@Override
 
 	@Override
 	public synchronized void update() {

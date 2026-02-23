@@ -61,6 +61,49 @@ import java.util.ArrayList;
 
 public class MeleeWeapon extends Weapon {
 
+	public static final int NORMAL = 0;
+public static final int ENHANCED = 1; // Niebieskie
+public static final int CURSED_Q = 2; // Czerwone
+
+public int quality = NORMAL;
+public float minMod = 1.0f;
+public float maxMod = 1.0f;
+
+// Konstruktor z losowaniem
+public MeleeWeapon() {
+    super();
+    double roll = Math.random();
+    
+    if (roll < 0.15) { // 15% szans na ulepszoną (Niebieską)
+        quality = ENHANCED;
+        minMod = 1.20f + (float)Math.random() * 0.30f; // 1.20 - 1.50
+        maxMod = 1.20f + (float)Math.random() * 0.30f;
+    } else if (roll < 0.30) { // 15% szans na przeklętą (Czerwoną)
+        quality = CURSED_Q;
+        minMod = 0.50f + (float)Math.random() * 0.30f; // 0.50 - 0.80
+        maxMod = 0.50f + (float)Math.random() * 0.30f;
+    } else { // Reszta to normalne
+        quality = NORMAL;
+        minMod = 0.75f + (float)Math.random() * 0.50f; // 0.75 - 1.25
+        maxMod = 0.75f + (float)Math.random() * 0.50f;
+    }
+}
+
+// Zmodyfikuj funkcje min i max obrażeń
+@Override
+public int min(int lvl) {
+    // lvl teraz ignorujemy w standardowy sposób, bo używamy systemu fuzji
+    return Math.max(1, Math.round((tier) * minMod));
+}
+
+@Override
+public int max(int lvl) {
+    return Math.max(1, Math.round((5 * (tier + 1)) * maxMod));
+}
+
+	public float minMod = 1.0f; // mnożnik ataku minimalnego
+	public float maxMod = 1.0f; // mnożnik ataku maksymalnego
+
 	public static String AC_ABILITY = "ABILITY";
 
 	@Override
@@ -118,7 +161,7 @@ public class MeleeWeapon extends Weapon {
 				}
 			} else if (hero.heroClass != HeroClass.DUELIST){
 				//do nothing
-			} else if (STRReq() > hero.STR()){
+			} else if (STRReq() > (hero.STR() + hero.attSTRBonus){
 				GLog.w(Messages.get(this, "ability_low_str"));
 			} else if ((Buff.affect(hero, Charger.class).charges + Buff.affect(hero, Charger.class).partialCharge) < abilityChargeUse(hero, null)) {
 				GLog.w(Messages.get(this, "ability_no_charge"));
@@ -245,17 +288,17 @@ public class MeleeWeapon extends Weapon {
 
 	public int tier;
 
-	@Override
-	public int min(int lvl) {
-		return  tier +  //base
-				lvl;    //level scaling
-	}
+@Override
+public int min(int lvl) {
+    int baseMin = tier + lvl;
+    return Math.max(1, Math.round(baseMin * minMod));
+}
 
-	@Override
-	public int max(int lvl) {
-		return  5*(tier+1) +    //base
-				lvl*(tier+1);   //level scaling
-	}
+@Override
+public int max(int lvl) {
+    int baseMax = 5 * (tier + 1) + lvl * (tier + 1);
+    return Math.max(1, Math.round(baseMax * maxMod));
+}
 
 	public int STRReq(int lvl){
 		int req = STRReq(tier, lvl);
@@ -310,15 +353,15 @@ public class MeleeWeapon extends Weapon {
 		if (levelKnown) {
 			info += "\n\n" + Messages.get(MeleeWeapon.class, "stats_known", tier, augment.damageFactor(min()), augment.damageFactor(max()), STRReq());
 			if (Dungeon.hero != null) {
-				if (STRReq() > Dungeon.hero.STR()) {
+				if (STRReq() > (Dungeon.hero.STR() + Dungeon.hero.attSTRBonus)()) {
 					info += " " + Messages.get(Weapon.class, "too_heavy");
-				} else if (Dungeon.hero.STR() > STRReq()) {
+				} else if ((Dungeon.hero.STR() + Dungeon.hero.attSTRBonus) > STRReq()) {
 					info += " " + Messages.get(Weapon.class, "excess_str", Dungeon.hero.STR() - STRReq());
 				}
 			}
 		} else {
 			info += "\n\n" + Messages.get(MeleeWeapon.class, "stats_unknown", tier, min(0), max(0), STRReq(0));
-			if (Dungeon.hero != null && STRReq(0) > Dungeon.hero.STR()) {
+			if (Dungeon.hero != null && STRReq(0) > (Dungeon.hero.STR() + Dungeon.hero.attSTRBonus)) {
 				info += " " + Messages.get(MeleeWeapon.class, "probably_too_heavy");
 			}
 		}
@@ -579,5 +622,23 @@ public class MeleeWeapon extends Weapon {
 			AttackIndicator.updateState();
 		}
 	}
+
+private static final String TXT_MIN_MOD = "minMod";
+private static final String TXT_MAX_MOD = "maxMod";
+
+@Override
+public void storeInBundle(Bundle bundle) {
+    super.storeInBundle(bundle);
+    bundle.put(TXT_MIN_MOD, minMod);
+    bundle.put(TXT_MAX_MOD, maxMod);
+}
+
+@Override
+public void restoreFromBundle(Bundle bundle) {
+    super.restoreFromBundle(bundle);
+    // Jeśli wczytujemy stary zapis, gdzie nie było modów, dajemy 1.0f (domyślne)
+    minMod = bundle.contains(TXT_MIN_MOD) ? bundle.getFloat(TXT_MIN_MOD) : 1.0f;
+    maxMod = bundle.contains(TXT_MAX_MOD) ? bundle.getFloat(TXT_MAX_MOD) : 1.0f;
+}
 
 }

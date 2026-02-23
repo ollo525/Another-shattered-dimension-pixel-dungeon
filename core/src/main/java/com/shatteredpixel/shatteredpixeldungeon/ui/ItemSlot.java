@@ -34,6 +34,7 @@ import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.PixelScene;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSprite;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MeleeWeapon;
 import com.watabou.noosa.BitmapText;
 import com.watabou.noosa.Image;
 import com.watabou.utils.Rect;
@@ -299,6 +300,24 @@ public class ItemSlot extends Button {
 			}
 		} else {
 			level.text( null );
+		}
+
+		if (item instanceof MeleeWeapon) {
+			MeleeWeapon mw = (MeleeWeapon) item;
+			
+			if (mw.quality == MeleeWeapon.ENHANCED) {
+				// Jasny niebieski dla ulepszonych
+				bg.color( 0x3399FF ); 
+			} else if (mw.quality == MeleeWeapon.CURSED_Q) {
+				// Ciemny czerwony dla "przeklętych" (czerwone tło)
+				bg.color( 0xFF4444 ); 
+			} else {
+				// Przywrócenie normalnego koloru dla zwykłych przedmiotów
+				bg.resetColor();
+			}
+		} else {
+			// Przywrócenie normalnego koloru dla wszystkiego co nie jest bronią białą
+			bg.resetColor();
 		}
 
 		layout();
