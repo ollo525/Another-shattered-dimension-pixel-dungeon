@@ -354,7 +354,6 @@ public class Hero extends Char {
 @Override
 public void restoreFromBundle( Bundle bundle ) {
 
-    // 1. Najpierw wczytujemy podstawowe statystyki Twojego moda
     lvl = bundle.getInt( LEVEL );
     exp = bundle.getInt( EXPERIENCE );
     STR = bundle.getInt( STRENGTH );
@@ -391,7 +390,6 @@ public void restoreFromBundle( Bundle bundle ) {
     
     Talent.restoreTalentsFromBundle( bundle, this );
     
-    // 6. Na koniec wymuś aktualizację HP z poprawnymi już danymi
     updateHT( false );
 }
 	

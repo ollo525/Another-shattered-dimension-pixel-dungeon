@@ -61,6 +61,29 @@ import java.util.ArrayList;
 
 public class MeleeWeapon extends Weapon {
 
+private static final String TXT_MIN_MOD = "minMod";
+private static final String TXT_MAX_MOD = "maxMod";
+private static final String TXT_QUALITY = "quality"; // Dodajemy klucz dla jakości
+
+	@Override
+public void storeInBundle(Bundle bundle) {
+    super.storeInBundle(bundle);
+    bundle.put(TXT_MIN_MOD, minMod);
+    bundle.put(TXT_MAX_MOD, maxMod);
+    bundle.put(TXT_QUALITY, quality);
+}
+
+@Override
+public void restoreFromBundle(Bundle bundle) {
+    super.restoreFromBundle(bundle);
+    
+    if (bundle.contains(TXT_MIN_MOD)) {
+        minMod = bundle.getFloat(TXT_MIN_MOD);
+        maxMod = bundle.getFloat(TXT_MAX_MOD);
+        quality = bundle.getInt(TXT_QUALITY);
+    }
+}
+
 	public static final int NORMAL = 0;
 public static final int ENHANCED = 1; // Niebieskie
 public static final int CURSED_Q = 2; // Czerwone
@@ -621,26 +644,7 @@ public int max(int lvl) {
 		}
 	}
 
-private static final String TXT_MIN_MOD = "minMod";
-private static final String TXT_MAX_MOD = "maxMod";
-private static final String TXT_QUALITY = "quality"; // Dodajemy klucz dla jakości
 
-@Override
-public void storeInBundle(Bundle bundle) {
-    super.storeInBundle(bundle);
-    bundle.put(TXT_MIN_MOD, minMod);
-    bundle.put(TXT_MAX_MOD, maxMod);
-    bundle.put(TXT_QUALITY, quality); // Zapisujemy jakość (kolor)
-}
 
-@Override
-public void restoreFromBundle(Bundle bundle) {
-    super.restoreFromBundle(bundle);
-    
-    if (bundle.contains(TXT_MIN_MOD)) {
-        minMod = bundle.getFloat(TXT_MIN_MOD);
-        maxMod = bundle.getFloat(TXT_MAX_MOD);
-        quality = bundle.getInt(TXT_QUALITY);
-    }
-}
+
 }
