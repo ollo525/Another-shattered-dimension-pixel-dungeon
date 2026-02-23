@@ -362,9 +362,6 @@ public void restoreFromBundle( Bundle bundle ) {
     
     attackSkill = bundle.getInt( ATTACK );
     defenseSkill = bundle.getInt( DEFENSE );
-
-    // 2. Wczytujemy Twoje poziomy Ataku/Obrony/Spostrzegawczości
-    // Muszą być wczytane PRZED super.restore, żeby updateHT() widziało poprawne dane
     if (bundle.contains(ATT_LV)) {
         attLv = bundle.getInt(ATT_LV);
         attProg = bundle.getInt(ATT_PROG);
@@ -377,21 +374,17 @@ public void restoreFromBundle( Bundle bundle ) {
         defSTRBonus = bundle.getInt(DEF_STR_BONUS);
     }
 
-    // 3. Bezpieczne wczytywanie tablic (zapobiega NullPointer)
     tierMinBonus = bundle.getFloatArray( "tierMinBonus" );
     if (tierMinBonus == null || tierMinBonus.length < 6) tierMinBonus = new float[6];
     
     tierMaxBonus = bundle.getFloatArray( "tierMaxBonus" );
     if (tierMaxBonus == null || tierMaxBonus.length < 6) tierMaxBonus = new float[6];
 
-    // 4. DOPIERO TERAZ wywołujemy super
     super.restoreFromBundle( bundle );
 
-    // 5. Wczytujemy resztę obiektów (klasa, talenty itp.)
     heroClass = bundle.getEnum( CLASS, HeroClass.class );
     subClass = bundle.getEnum( SUBCLASS, HeroSubClass.class );
     
-    // Dodaj sprawdzanie czy ABILITY istnieje, żeby nie wywaliło błędu przy starszych zapisach
     if (bundle.contains(ABILITY)) {
         armorAbility = (ArmorAbility)bundle.get( ABILITY );
     }

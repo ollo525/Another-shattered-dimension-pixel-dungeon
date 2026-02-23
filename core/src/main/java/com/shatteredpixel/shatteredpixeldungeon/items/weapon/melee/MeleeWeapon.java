@@ -296,7 +296,6 @@ public int max(int lvl) {
 		return baseChargeUse(hero, target);
 	}
 
-	public int tier;
 
 @Override
 
@@ -639,8 +638,11 @@ public void storeInBundle(Bundle bundle) {
 @Override
 public void restoreFromBundle(Bundle bundle) {
     super.restoreFromBundle(bundle);
-    minMod = bundle.contains(TXT_MIN_MOD) ? bundle.getFloat(TXT_MIN_MOD) : 1.0f;
-    maxMod = bundle.contains(TXT_MAX_MOD) ? bundle.getFloat(TXT_MAX_MOD) : 1.0f;
-    quality = bundle.getInt(TXT_QUALITY); // Wczytujemy jakość
+    
+    if (bundle.contains(TXT_MIN_MOD)) {
+        minMod = bundle.getFloat(TXT_MIN_MOD);
+        maxMod = bundle.getFloat(TXT_MAX_MOD);
+        quality = bundle.getInt(TXT_QUALITY);
+    }
 }
 }
