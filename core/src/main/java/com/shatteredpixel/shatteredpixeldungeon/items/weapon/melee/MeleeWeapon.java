@@ -91,16 +91,26 @@ public MeleeWeapon() {
 
 
 
-// Zmodyfikuj funkcje min i max obrażeń
 @Override
 public int min(int lvl) {
-    // lvl teraz ignorujemy w standardowy sposób, bo używamy systemu fuzji
-    return Math.max(1, Math.round((tier) * minMod));
+    float heroBonus = 0;
+    // Sprawdzamy, czy bohater istnieje ORAZ czy tablica bonusów nie jest nullem
+    if (Dungeon.hero != null && Dungeon.hero.tierMinBonus != null) {
+        // Zabezpieczenie: upewnij się, że tier nie wykracza poza tablicę
+        int t = Math.max(0, Math.min(tier, 5));
+        heroBonus = Dungeon.hero.tierMinBonus[t];
+    }
+    return Math.max(1, Math.round((tier + heroBonus) * minMod));
 }
 
 @Override
 public int max(int lvl) {
-    return Math.max(1, Math.round((5 * (tier + 1)) * maxMod));
+    float heroBonus = 0;
+    if (Dungeon.hero != null && Dungeon.hero.tierMaxBonus != null) {
+        int t = Math.max(0, Math.min(tier, 5));
+        heroBonus = Dungeon.hero.tierMaxBonus[t];
+    }
+    return Math.max(1, Math.round((5 * (tier + 1) + heroBonus) * maxMod));
 }
 
 

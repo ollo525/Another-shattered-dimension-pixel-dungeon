@@ -359,6 +359,13 @@ public class Hero extends Char {
 
 		HTBoost = bundle.getInt(HTBOOST);
 
+
+		tierMinBonus = bundle.getFloatArray( "tierMinBonus" );
+		if (tierMinBonus == null) tierMinBonus = new float[6];
+		tierMaxBonus = bundle.getFloatArray( "tierMaxBonus" );
+		if (tierMaxBonus == null) tierMaxBonus = new float[6];
+	
+
 		super.restoreFromBundle( bundle );
 
 		heroClass = bundle.getEnum( CLASS, HeroClass.class );
@@ -382,11 +389,6 @@ public class Hero extends Char {
 			attSTRBonus = bundle.getInt(ATT_STR_BONUS);
 			defSTRBonus = bundle.getInt(DEF_STR_BONUS);
 		}
-
-		tierMinBonus = bundle.getFloatArray( "tierMinBonus" );
-	if (tierMinBonus == null) tierMinBonus = new float[6];
-	tierMaxBonus = bundle.getFloatArray( "tierMaxBonus" );
-	if (tierMaxBonus == null) tierMaxBonus = new float[6];
 	}
 	
 	public static void preview( GamesInProgress.Info info, Bundle bundle ) {
