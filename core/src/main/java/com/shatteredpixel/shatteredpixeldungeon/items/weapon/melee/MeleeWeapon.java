@@ -161,7 +161,7 @@ public int max(int lvl) {
 				}
 			} else if (hero.heroClass != HeroClass.DUELIST){
 				//do nothing
-			} else if (STRReq() > (hero.STR() + hero.attSTRBonus){
+			} else if (STRReq() > (hero.STR() + hero.attSTRBonus)) {
 				GLog.w(Messages.get(this, "ability_low_str"));
 			} else if ((Buff.affect(hero, Charger.class).charges + Buff.affect(hero, Charger.class).partialCharge) < abilityChargeUse(hero, null)) {
 				GLog.w(Messages.get(this, "ability_no_charge"));
@@ -362,11 +362,12 @@ public int max(int lvl) {
 		if (levelKnown) {
 			info += "\n\n" + Messages.get(MeleeWeapon.class, "stats_known", tier, augment.damageFactor(min()), augment.damageFactor(max()), STRReq());
 			if (Dungeon.hero != null) {
-				if (STRReq() > (Dungeon.hero.STR() + Dungeon.hero.attSTRBonus)()) {
-					info += " " + Messages.get(Weapon.class, "too_heavy");
-				} else if ((Dungeon.hero.STR() + Dungeon.hero.attSTRBonus) > STRReq()) {
-					info += " " + Messages.get(Weapon.class, "excess_str", Dungeon.hero.STR() - STRReq());
-				}
+				int totalSTR = Dungeon.hero.STR() + Dungeon.hero.attSTRBonus;
+					if (STRReq() > totalSTR) {
+   						info += " " + Messages.get(Weapon.class, "too_heavy");
+					} else if (totalSTR > STRReq()) {
+ 					   	info += " " + Messages.get(Weapon.class, "excess_str", totalSTR - STRReq());
+					}
 			}
 		} else {
 			info += "\n\n" + Messages.get(MeleeWeapon.class, "stats_unknown", tier, min(0), max(0), STRReq(0));
