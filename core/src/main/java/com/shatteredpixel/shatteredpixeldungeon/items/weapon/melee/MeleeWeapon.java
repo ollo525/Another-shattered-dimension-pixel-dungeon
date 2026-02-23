@@ -289,14 +289,6 @@ public int max(int lvl) {
 	public int tier;
 
 @Override
-public int max(int lvl) {
-    float heroBonus = 0;
-    if (Dungeon.hero != null) {
-        heroBonus = Dungeon.hero.tierMaxBonus[tier];
-    }
-    // Wzór: (Baza Max + Bonus Bohatera) * Mnożnik unikalny broni
-    return Math.max(1, Math.round((5 * (tier + 1) + heroBonus) * maxMod));
-}
 
 	public int STRReq(int lvl){
 		int req = STRReq(tier, lvl);
