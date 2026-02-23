@@ -320,8 +320,6 @@ public class ItemSprite extends MovieClip {
 	}
 	
 	@Override
-
-	@Override
 	public synchronized void update() {
 		super.update();
 

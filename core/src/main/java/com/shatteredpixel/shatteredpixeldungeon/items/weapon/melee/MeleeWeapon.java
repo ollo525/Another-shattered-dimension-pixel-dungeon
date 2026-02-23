@@ -101,8 +101,6 @@ public int max(int lvl) {
     return Math.max(1, Math.round((5 * (tier + 1)) * maxMod));
 }
 
-	public float minMod = 1.0f; // mnożnik ataku minimalnego
-	public float maxMod = 1.0f; // mnożnik ataku maksymalnego
 
 	public static String AC_ABILITY = "ABILITY";
 

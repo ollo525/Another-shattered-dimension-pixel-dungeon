@@ -307,17 +307,17 @@ public class ItemSlot extends Button {
 			
 			if (mw.quality == MeleeWeapon.ENHANCED) {
 				// Jasny niebieski dla ulepszonych
-				bg.color( 0x3399FF ); 
+				level.hardlight(UPGRADED);
 			} else if (mw.quality == MeleeWeapon.CURSED_Q) {
 				// Ciemny czerwony dla "przeklętych" (czerwone tło)
-				bg.color( 0xFF4444 ); 
+				extra.hardlight(WARNING);
 			} else {
 				// Przywrócenie normalnego koloru dla zwykłych przedmiotów
-				bg.resetColor();
+				status.resetColor();
 			}
 		} else {
 			// Przywrócenie normalnego koloru dla wszystkiego co nie jest bronią białą
-			bg.resetColor();
+			status.resetColor();
 		}
 
 		layout();
