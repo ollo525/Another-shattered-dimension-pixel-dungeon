@@ -375,10 +375,10 @@ public void restoreFromBundle( Bundle bundle ) {
     }
 
     tierMinBonus = bundle.getFloatArray( "tierMinBonus" );
-    if (tierMinBonus == null || tierMinBonus.length < 6) tierMinBonus = new float[6];
+    if (tierMinBonus == null) tierMinBonus = new float[6];
     
     tierMaxBonus = bundle.getFloatArray( "tierMaxBonus" );
-    if (tierMaxBonus == null || tierMaxBonus.length < 6) tierMaxBonus = new float[6];
+    if (tierMaxBonus == null) tierMaxBonus = new float[6];
 
     super.restoreFromBundle( bundle );
 

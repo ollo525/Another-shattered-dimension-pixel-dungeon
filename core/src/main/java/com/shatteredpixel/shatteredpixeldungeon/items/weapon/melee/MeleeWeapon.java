@@ -94,9 +94,7 @@ public MeleeWeapon() {
 @Override
 public int min(int lvl) {
     float heroBonus = 0;
-    // Sprawdzamy, czy bohater istnieje ORAZ czy tablica bonusów nie jest nullem
     if (Dungeon.hero != null && Dungeon.hero.tierMinBonus != null) {
-        // Zabezpieczenie: upewnij się, że tier nie wykracza poza tablicę
         int t = Math.max(0, Math.min(tier, 5));
         heroBonus = Dungeon.hero.tierMinBonus[t];
     }
@@ -296,7 +294,7 @@ public int max(int lvl) {
 		return baseChargeUse(hero, target);
 	}
 
-
+ public int tier;
 @Override
 
 	public int STRReq(int lvl){
