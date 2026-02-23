@@ -290,14 +290,23 @@ public int max(int lvl) {
 
 @Override
 public int min(int lvl) {
-    int baseMin = tier + lvl;
-    return Math.max(1, Math.round(baseMin * minMod));
+    float heroBonus = 0;
+    if (Dungeon.hero != null) {
+        // Pobieramy bonus dla tieru tej broni z tablicy bohatera
+        heroBonus = Dungeon.hero.tierMinBonus[tier];
+    }
+    // Wzór: (Bazowy Tier + Bonus Bohatera) * Mnożnik unikalny broni
+    return Math.max(1, Math.round((tier + heroBonus) * minMod));
 }
 
 @Override
 public int max(int lvl) {
-    int baseMax = 5 * (tier + 1) + lvl * (tier + 1);
-    return Math.max(1, Math.round(baseMax * maxMod));
+    float heroBonus = 0;
+    if (Dungeon.hero != null) {
+        heroBonus = Dungeon.hero.tierMaxBonus[tier];
+    }
+    // Wzór: (Baza Max + Bonus Bohatera) * Mnożnik unikalny broni
+    return Math.max(1, Math.round((5 * (tier + 1) + heroBonus) * maxMod));
 }
 
 	public int STRReq(int lvl){

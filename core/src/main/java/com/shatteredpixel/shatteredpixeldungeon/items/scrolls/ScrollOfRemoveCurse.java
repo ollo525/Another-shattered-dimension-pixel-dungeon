@@ -100,7 +100,26 @@ public class ScrollOfRemoveCurse extends InventoryScroll {
 	protected void onItemSelected(Item item) {
 		new Flare( 6, 32 ).show( curUser.sprite, 2f );
 
-		boolean procced = uncurse( curUser, item );
+		boolean procced = false;
+
+		// NOWA LOGIKA: Zamiana czerwonej jakości na niebieską (Enhanced)
+		if (item instanceof MeleeWeapon) {
+			MeleeWeapon mw = (MeleeWeapon) item;
+			if (mw.quality == MeleeWeapon.CURSED_Q) {
+				mw.quality = MeleeWeapon.ENHANCED; // Zmieniamy na niebieskie tło
+				mw.minMod = 1.30f + (float)Math.random() * 0.10f; // Losowanie 1.30 - 1.40
+				mw.maxMod = 1.30f + (float)Math.random() * 0.10f;
+				mw.cursed = false;
+				mw.cursedKnown = true;
+				GLog.p("Przełamałeś klątwę! Broń lśni teraz błękitnym blaskiem mistrzostwa.");
+				procced = true;
+			}
+		}
+
+		// Jeśli to nie była "czerwona" broń, wykonaj standardowe odklęcie
+		if (!procced) {
+			procced = uncurse( curUser, item );
+		}
 
 		if (curUser.buff(Degrade.class) != null) {
 			Degrade.detach(curUser, Degrade.class);
@@ -109,6 +128,7 @@ public class ScrollOfRemoveCurse extends InventoryScroll {
 
 		if (procced) {
 			GLog.p( Messages.get(this, "cleansed") );
+			updateQuickslot();
 		} else {
 			GLog.i( Messages.get(this, "not_cleansed") );
 		}

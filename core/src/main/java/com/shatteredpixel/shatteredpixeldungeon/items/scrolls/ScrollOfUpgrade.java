@@ -78,33 +78,45 @@ public class ScrollOfUpgrade extends InventoryScroll {
 	}
 
 	public Item upgradeItem( Item item ){
+		// Efekt wizualny ulepszenia
 		upgrade( curUser );
-
 		Degrade.detach( curUser, Degrade.class );
 
-		//logic for telling the user when item properties change from upgrades
-		//...yes this is rather messy
-		if (item instanceof Weapon){
-			Weapon w = (Weapon) item;
-			boolean wasCursed = w.cursed;
-			boolean wasHardened = w.enchantHardened;
-			boolean hadCursedEnchant = w.hasCurseEnchant();
-			boolean hadGoodEnchant = w.hasGoodEnchant();
+		// NOWA LOGIKA: System Fuzji dla broni białej
+		if (item instanceof MeleeWeapon) {
+			MeleeWeapon mw = (MeleeWeapon) item;
+			float addMin, addMax;
 
-			item = w.upgrade();
-
-			if (w.cursedKnown && hadCursedEnchant && !w.hasCurseEnchant()){
-				removeCurse( Dungeon.hero );
-			} else if (w.cursedKnown && wasCursed && !w.cursed){
-				weakenCurse( Dungeon.hero );
-			}
-			if (wasHardened && !w.enchantHardened){
-				GLog.w( Messages.get(Weapon.class, "hardening_gone") );
-			} else if (hadGoodEnchant && !w.hasGoodEnchant()){
-				GLog.w( Messages.get(Weapon.class, "incompatible") );
+			if (mw.quality == MeleeWeapon.ENHANCED) {
+				// Jeśli broń była niebieska, dodajemy losowy bonus 1.00 - 1.25
+				addMin = 1.00f + (float)Math.random() * 0.25f;
+				addMax = 1.00f + (float)Math.random() * 0.25f;
+			} else {
+				// Jeśli normalna (lub czerwona), dodajemy jej aktualne modyfikatory
+				addMin = mw.minMod;
+				addMax = mw.maxMod;
 			}
 
-		} else if (item instanceof Armor){
+			// Dodajemy bonus do tablicy bohatera dla tego tieru i wszystkich wyższych
+			for (int i = mw.tier; i <= 5; i++) {
+				curUser.tierMinBonus[i] += addMin;
+				curUser.tierMaxBonus[i] += addMax;
+			}
+
+			GLog.p("Zniszczyłeś broń, wzmacniając na stałe swoją wiedzę o Tierze " + mw.tier + " i wyższych!");
+			
+			// Niszczymy przedmiot
+			item.detach(curUser.belongings.backpack);
+			
+			Statistics.upgradesUsed++;
+			Badges.validateMageUnlock();
+			Catalog.countUse(this.getClass());
+			
+			return null; // Zwracamy null, bo przedmiot przestał istnieć
+		}
+
+		// Reszta logiki dla zbroi, pierścieni i różdżek pozostaje bez zmian
+		if (item instanceof Armor){
 			Armor a = (Armor) item;
 			boolean wasCursed = a.cursed;
 			boolean wasHardened = a.glyphHardened;

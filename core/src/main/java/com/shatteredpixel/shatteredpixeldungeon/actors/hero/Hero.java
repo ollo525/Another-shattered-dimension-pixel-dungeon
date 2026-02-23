@@ -207,6 +207,9 @@ public class Hero extends Char {
 	public int attSTRBonus = 0;
 	public int defSTRBonus = 0;
 
+	public float[] tierMinBonus = new float[6]; // Bonusy do min obrażeń dla tierów 1-5
+	public float[] tierMaxBonus = new float[6]; // Bonusy do max obrażeń dla tierów 1-5
+
 	private int attackSkill = 10;
 	private int defenseSkill = 5;
 
@@ -343,6 +346,9 @@ public class Hero extends Char {
 
 		belongings.storeInBundle( bundle );
 
+		bundle.put( "tierMinBonus", tierMinBonus );
+	bundle.put( "tierMaxBonus", tierMaxBonus );
+
 	}
 	
 	@Override
@@ -376,6 +382,11 @@ public class Hero extends Char {
 			attSTRBonus = bundle.getInt(ATT_STR_BONUS);
 			defSTRBonus = bundle.getInt(DEF_STR_BONUS);
 		}
+
+		tierMinBonus = bundle.getFloatArray( "tierMinBonus" );
+	if (tierMinBonus == null) tierMinBonus = new float[6];
+	tierMaxBonus = bundle.getFloatArray( "tierMaxBonus" );
+	if (tierMaxBonus == null) tierMaxBonus = new float[6];
 	}
 	
 	public static void preview( GamesInProgress.Info info, Bundle bundle ) {
