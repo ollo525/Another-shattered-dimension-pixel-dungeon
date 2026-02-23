@@ -351,45 +351,56 @@ public class Hero extends Char {
 
 	}
 	
-	@Override
-	public void restoreFromBundle( Bundle bundle ) {
+@Override
+public void restoreFromBundle( Bundle bundle ) {
 
-		lvl = bundle.getInt( LEVEL );
-		exp = bundle.getInt( EXPERIENCE );
+    // 1. Najpierw wczytujemy podstawowe statystyki Twojego moda
+    lvl = bundle.getInt( LEVEL );
+    exp = bundle.getInt( EXPERIENCE );
+    STR = bundle.getInt( STRENGTH );
+    HTBoost = bundle.getInt( HTBOOST );
+    
+    attackSkill = bundle.getInt( ATTACK );
+    defenseSkill = bundle.getInt( DEFENSE );
 
-		HTBoost = bundle.getInt(HTBOOST);
+    // 2. Wczytujemy Twoje poziomy Ataku/Obrony/Spostrzegawczości
+    // Muszą być wczytane PRZED super.restore, żeby updateHT() widziało poprawne dane
+    if (bundle.contains(ATT_LV)) {
+        attLv = bundle.getInt(ATT_LV);
+        attProg = bundle.getInt(ATT_PROG);
+        defLv = bundle.getInt(DEF_LV);
+        defProg = bundle.getInt(DEF_PROG);
+        seeLv = bundle.getInt(SEE_LV);
+        seeProg = bundle.getInt(SEE_PROG);
+        
+        attSTRBonus = bundle.getInt(ATT_STR_BONUS);
+        defSTRBonus = bundle.getInt(DEF_STR_BONUS);
+    }
 
+    // 3. Bezpieczne wczytywanie tablic (zapobiega NullPointer)
+    tierMinBonus = bundle.getFloatArray( "tierMinBonus" );
+    if (tierMinBonus == null || tierMinBonus.length < 6) tierMinBonus = new float[6];
+    
+    tierMaxBonus = bundle.getFloatArray( "tierMaxBonus" );
+    if (tierMaxBonus == null || tierMaxBonus.length < 6) tierMaxBonus = new float[6];
 
-		tierMinBonus = bundle.getFloatArray( "tierMinBonus" );
-		if (tierMinBonus == null) tierMinBonus = new float[6];
-		tierMaxBonus = bundle.getFloatArray( "tierMaxBonus" );
-		if (tierMaxBonus == null) tierMaxBonus = new float[6];
-	
+    // 4. DOPIERO TERAZ wywołujemy super
+    super.restoreFromBundle( bundle );
 
-		super.restoreFromBundle( bundle );
-
-		heroClass = bundle.getEnum( CLASS, HeroClass.class );
-		subClass = bundle.getEnum( SUBCLASS, HeroSubClass.class );
-		armorAbility = (ArmorAbility)bundle.get( ABILITY );
-		Talent.restoreTalentsFromBundle( bundle, this );
-		
-		attackSkill = bundle.getInt( ATTACK );
-		defenseSkill = bundle.getInt( DEFENSE );
-		
-		STR = bundle.getInt( STRENGTH );
-
-		if (bundle.contains(ATT_LV)) {
-			attLv = bundle.getInt(ATT_LV);
-			attProg = bundle.getInt(ATT_PROG);
-			defLv = bundle.getInt(DEF_LV);
-			defProg = bundle.getInt(DEF_PROG);
-			seeLv = bundle.getInt(SEE_LV);
-			seeProg = bundle.getInt(SEE_PROG);
-			
-			attSTRBonus = bundle.getInt(ATT_STR_BONUS);
-			defSTRBonus = bundle.getInt(DEF_STR_BONUS);
-		}
-	}
+    // 5. Wczytujemy resztę obiektów (klasa, talenty itp.)
+    heroClass = bundle.getEnum( CLASS, HeroClass.class );
+    subClass = bundle.getEnum( SUBCLASS, HeroSubClass.class );
+    
+    // Dodaj sprawdzanie czy ABILITY istnieje, żeby nie wywaliło błędu przy starszych zapisach
+    if (bundle.contains(ABILITY)) {
+        armorAbility = (ArmorAbility)bundle.get( ABILITY );
+    }
+    
+    Talent.restoreTalentsFromBundle( bundle, this );
+    
+    // 6. Na koniec wymuś aktualizację HP z poprawnymi już danymi
+    updateHT( false );
+}
 	
 	public static void preview( GamesInProgress.Info info, Bundle bundle ) {
 		info.level = bundle.getInt( LEVEL );
