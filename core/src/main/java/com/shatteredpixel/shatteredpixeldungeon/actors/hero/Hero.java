@@ -398,6 +398,8 @@ public void restoreFromBundle( Bundle bundle ) {
         }
     }
 
+	belongings.restoreFromBundle( bundle );
+
     updateHT( false );
 }
 	
