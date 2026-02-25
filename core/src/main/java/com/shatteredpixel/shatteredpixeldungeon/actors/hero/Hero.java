@@ -314,44 +314,42 @@ public class Hero extends Char {
 	private static final String EXPERIENCE	= "exp";
 	private static final String HTBOOST     = "htboost";
 	
-	@Override
-	public void storeInBundle( Bundle bundle ) {
+@Override
+public void storeInBundle( Bundle bundle ) {
+    super.storeInBundle( bundle );
 
-		super.storeInBundle( bundle );
+    bundle.put( CLASS, heroClass );
+    bundle.put( SUBCLASS, subClass );
+    bundle.put( ABILITY, armorAbility );
+    Talent.storeTalentsInBundle( bundle, this );
 
-		bundle.put( CLASS, heroClass );
-		bundle.put( SUBCLASS, subClass );
-		bundle.put( ABILITY, armorAbility );
-		Talent.storeTalentsInBundle( bundle, this );
-		
-		bundle.put( ATTACK, attackSkill );
-		bundle.put( DEFENSE, defenseSkill );
-		
-		bundle.put( STRENGTH, STR );
-		
-		bundle.put( ATT_LV, attLv );
-		bundle.put( ATT_PROG, attProg );
-		bundle.put( DEF_LV, defLv );
-		bundle.put( DEF_PROG, defProg );
-		bundle.put( SEE_LV, seeLv );
-		bundle.put( SEE_PROG, seeProg );
-		
-		bundle.put( ATT_STR_BONUS, attSTRBonus );
-		bundle.put( DEF_STR_BONUS, defSTRBonus );
+    bundle.put( ATTACK, attackSkill );
+    bundle.put( DEFENSE, defenseSkill );
 
-		bundle.put( LEVEL, lvl );
-		bundle.put( EXPERIENCE, exp );
-		
-		bundle.put( HTBOOST, HTBoost );
+    bundle.put( STRENGTH, STR );
 
-		belongings.storeInBundle( bundle );
+    bundle.put( ATT_LV, attLv );
+    bundle.put( ATT_PROG, attProg );
+    bundle.put( DEF_LV, defLv );
+    bundle.put( DEF_PROG, defProg );
+    bundle.put( SEE_LV, seeLv );
+    bundle.put( SEE_PROG, seeProg );
 
-for (int i = 0; i < 6; i++) {
-    bundle.put("tierMinBonus_" + i, tierMinBonus[i]);
-    bundle.put("tierMaxBonus_" + i, tierMaxBonus[i]);
+    bundle.put( ATT_STR_BONUS, attSTRBonus );
+    bundle.put( DEF_STR_BONUS, defSTRBonus );
+
+    bundle.put( LEVEL, lvl );
+    bundle.put( EXPERIENCE, exp );
+
+    bundle.put( HTBOOST, HTBoost );
+
+    belongings.storeInBundle( bundle );
+
+    for (int i = 0; i < 6; i++) {
+        bundle.put("tierMinBonus_" + i, tierMinBonus[i]);
+        bundle.put("tierMaxBonus_" + i, tierMaxBonus[i]);
+    }
 }
-
-	}
 	
 @Override
 public void restoreFromBundle( Bundle bundle ) {
