@@ -356,13 +356,27 @@ for (int i = 0; i < 6; i++) {
 @Override
 public void restoreFromBundle( Bundle bundle ) {
 
-    lvl = bundle.getInt( LEVEL );
-    exp = bundle.getInt( EXPERIENCE );
-    STR = bundle.getInt( STRENGTH );
-    HTBoost = bundle.getInt( HTBOOST );
-    
+    super.restoreFromBundle( bundle );
+
+    heroClass = bundle.getEnum( CLASS, HeroClass.class );
+    subClass = bundle.getEnum( SUBCLASS, HeroSubClass.class );
+
+    if (bundle.contains(ABILITY)) {
+        armorAbility = (ArmorAbility) bundle.get( ABILITY );
+    }
+
+    Talent.restoreTalentsFromBundle( bundle, this );
+
     attackSkill = bundle.getInt( ATTACK );
     defenseSkill = bundle.getInt( DEFENSE );
+
+    STR = bundle.getInt( STRENGTH );
+
+    lvl = bundle.getInt( LEVEL );
+    exp = bundle.getInt( EXPERIENCE );
+
+    HTBoost = bundle.getInt( HTBOOST );
+
     if (bundle.contains(ATT_LV)) {
         attLv = bundle.getInt(ATT_LV);
         attProg = bundle.getInt(ATT_PROG);
@@ -370,33 +384,22 @@ public void restoreFromBundle( Bundle bundle ) {
         defProg = bundle.getInt(DEF_PROG);
         seeLv = bundle.getInt(SEE_LV);
         seeProg = bundle.getInt(SEE_PROG);
-        
+
         attSTRBonus = bundle.getInt(ATT_STR_BONUS);
         defSTRBonus = bundle.getInt(DEF_STR_BONUS);
     }
 
-tierMinBonus = new float[6];
-tierMaxBonus = new float[6];
-for (int i = 0; i < 6; i++) {
-    if (bundle.contains("tierMinBonus_" + i)) {
-        tierMinBonus[i] = bundle.getFloat("tierMinBonus_" + i);
+    tierMinBonus = new float[6];
+    tierMaxBonus = new float[6];
+    for (int i = 0; i < 6; i++) {
+        if (bundle.contains("tierMinBonus_" + i)) {
+            tierMinBonus[i] = bundle.getFloat("tierMinBonus_" + i);
+        }
+        if (bundle.contains("tierMaxBonus_" + i)) {
+            tierMaxBonus[i] = bundle.getFloat("tierMaxBonus_" + i);
+        }
     }
-    if (bundle.contains("tierMaxBonus_" + i)) {
-        tierMaxBonus[i] = bundle.getFloat("tierMaxBonus_" + i);
-    }
-}
 
-    super.restoreFromBundle( bundle );
-
-    heroClass = bundle.getEnum( CLASS, HeroClass.class );
-    subClass = bundle.getEnum( SUBCLASS, HeroSubClass.class );
-    
-    if (bundle.contains(ABILITY)) {
-        armorAbility = (ArmorAbility)bundle.get( ABILITY );
-    }
-    
-    Talent.restoreTalentsFromBundle( bundle, this );
-    
     updateHT( false );
 }
 	
