@@ -346,8 +346,10 @@ public class Hero extends Char {
 
 		belongings.storeInBundle( bundle );
 
-		bundle.put( "tierMinBonus", tierMinBonus );
-	bundle.put( "tierMaxBonus", tierMaxBonus );
+for (int i = 0; i < 6; i++) {
+    bundle.put("tierMinBonus_" + i, tierMinBonus[i]);
+    bundle.put("tierMaxBonus_" + i, tierMaxBonus[i]);
+}
 
 	}
 	
@@ -373,11 +375,16 @@ public void restoreFromBundle( Bundle bundle ) {
         defSTRBonus = bundle.getInt(DEF_STR_BONUS);
     }
 
-    tierMinBonus = bundle.getFloatArray( "tierMinBonus" );
-    if (tierMinBonus == null) tierMinBonus = new float[6];
-    
-    tierMaxBonus = bundle.getFloatArray( "tierMaxBonus" );
-    if (tierMaxBonus == null) tierMaxBonus = new float[6];
+tierMinBonus = new float[6];
+tierMaxBonus = new float[6];
+for (int i = 0; i < 6; i++) {
+    if (bundle.contains("tierMinBonus_" + i)) {
+        tierMinBonus[i] = bundle.getFloat("tierMinBonus_" + i);
+    }
+    if (bundle.contains("tierMaxBonus_" + i)) {
+        tierMaxBonus[i] = bundle.getFloat("tierMaxBonus_" + i);
+    }
+}
 
     super.restoreFromBundle( bundle );
 
