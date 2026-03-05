@@ -251,11 +251,50 @@ public class ItemSlot extends Button {
 			add(itemIcon);
 
 		} else if (item instanceof Weapon || item instanceof Armor) {
+			if (item.levelKnown) {
+ 			   int str;
+ 			   boolean isTooHeavy;
 
+   				if (item instanceof Weapon) {
+     		 	 	Weapon w = (Weapon) item;
+     		    	str = w.STRReq();
+        			isTooHeavy = (Dungeon.hero != null && str > (hero.STR() + hero.attSTRBonus));
+        
+      				  extra.text(Messages.format(TXT_STRENGTH, str));
+        
+      				  if (isTooHeavy) {
+        			    extra.hardlight(DEGRADED);
+       				} else if (w.masteryPotionBonus) {
+           				extra.hardlight(MASTERED);
+       				} else {
+            			extra.resetColor();
+      				}
+
+    			} else if (item instanceof Armor) {
+        			Armor a = (Armor) item;
+        			str = a.STRReq(); 
+        			isTooHeavy = (Dungeon.hero != null && str > (hero.STR() + hero.defSTRBonus));
+        
+        			extra.text(Messages.format(TXT_STRENGTH, str));
+        
+        		if (isTooHeavy) {
+            		extra.hardlight(DEGRADED);
+        		} else if (a.masteryPotionBonus) {
+            		extra.hardlight(MASTERED);
+        		} else {
+            		extra.resetColor();
+        		}
+    			}
+			} else {
+    			int str = item instanceof Weapon ? ((Weapon)item).STRReq(0) : ((Armor)item).STRReq(0);
+    			extra.text(Messages.format(TXT_TYPICAL_STR, str));
+    			extra.hardlight(WARNING);
+			}
+		extra.measure();
 			if (item.levelKnown){
 				int str = item instanceof Weapon ? ((Weapon)item).STRReq() : ((Armor)item).STRReq();
 				extra.text( Messages.format( TXT_STRENGTH, str ) );
-				if (Dungeon.hero != null && str > Dungeon.hero.STR()) {
+				if (Dungeon.hero != null && str > (hero.STR() + hero.attSTRBonus)) {
 					extra.hardlight( DEGRADED );
 				} else if (item instanceof Weapon && ((Weapon) item).masteryPotionBonus){
 					extra.hardlight( MASTERED );

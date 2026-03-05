@@ -489,7 +489,7 @@ public void restoreFromBundle( Bundle bundle ) {
 			belongings.attackingWeapon().hitSound(pitch);
 		} else if (RingOfForce.getBuffedBonus(this, RingOfForce.Force.class) > 0) {
 			//pitch deepens by 2.5% (additive) per point of strength, down to 75%
-			super.hitSound( pitch * GameMath.gate( 0.75f, 1.25f - 0.025f*STR(), 1f) );
+			super.hitSound( pitch * GameMath.gate( 0.75f, 1.25f - 0.025f*(STR() + attSTRBonus), 1f) );
 		} else {
 			super.hitSound(pitch * 1.1f);
 		}
@@ -701,15 +701,15 @@ public void restoreFromBundle( Bundle bundle ) {
 
 		if (belongings.armor() != null) {
 			int armDr = Random.NormalIntRange( belongings.armor().DRMin(), belongings.armor().DRMax());
-			if (STR() < belongings.armor().STRReq()){
-				armDr -= 2*(belongings.armor().STRReq() - STR());
+			if ((STR() + defSTRBonus) < belongings.armor().STRReq()){
+				armDr -= 2*(belongings.armor().STRReq() - (STR() + defSTRBonus));
 			}
 			if (armDr > 0) dr += armDr;
 		}
 		if (belongings.weapon() != null && !RingOfForce.fightingUnarmed(this))  {
 			int wepDr = Random.NormalIntRange( 0 , belongings.weapon().defenseFactor( this ) );
-			if (STR() < ((Weapon)belongings.weapon()).STRReq()){
-				wepDr -= 2*(((Weapon)belongings.weapon()).STRReq() - STR());
+			if ((STR() + attSTRBonus) < ((Weapon)belongings.weapon()).STRReq()){
+				wepDr -= 2*(((Weapon)belongings.weapon()).STRReq() - (STR() + attSTRBonus));
 			}
 			if (wepDr > 0) dr += wepDr;
 		}
@@ -801,7 +801,7 @@ public void restoreFromBundle( Bundle bundle ) {
 		KindOfWeapon w = belongings.attackingWeapon();
 		if (!(w instanceof Weapon))             return true;
 		if (RingOfForce.fightingUnarmed(this))  return true;
-		if (STR() < ((Weapon)w).STRReq())       return false;
+		if ((STR() + attSTRBonus) < ((Weapon)w).STRReq())       return false;
 		if (w instanceof Flail)                 return false;
 
 		return super.canSurpriseAttack();
