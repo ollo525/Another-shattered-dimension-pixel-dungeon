@@ -357,7 +357,7 @@ public int max(int lvl) {
 		int damage = augment.damageFactor(super.damageRoll( owner ));
 
 		if (owner instanceof Hero) {
-			int exStr = ((Hero)owner).(hero.STR() + hero.attSTRBonus) - STRReq();
+			int exStr = ((Hero)owner).(STR() + attSTRBonus) - STRReq();
 			if (exStr > 0) {
 				damage += Hero.heroDamageIntRange( 0, exStr );
 			}
